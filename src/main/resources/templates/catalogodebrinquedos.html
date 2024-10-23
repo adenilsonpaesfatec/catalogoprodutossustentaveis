@@ -12,7 +12,7 @@
                 <img th:src="@{/images/logo.png}" alt="Logo">
             </div>
             <div class="header-title">
-                <h1>Catálogo de Brinquedos</h1>
+                <h1>Nome da Loja de Brinquedo</h1>
             </div>
         </header>
         <div class="menu-lateral">
@@ -25,12 +25,12 @@
             </ul>
         </div>
         <main>
-            <h2>Brinquedos em Destaque</h2>
-            <div class="brinquedos-destaque">
-                <div class="brinquedo" th:each="brinquedo : ${brinquedos}">
-                    <img th:src="@{/images/} + ${brinquedo.imagem}" th:alt="${brinquedo.descricao}">
-                    <h3 th:text="${brinquedo.descricao}">Brinquedo</h3>
-                    <p th:text="${'R$ ' + #numbers.formatDecimal(brinquedo.valor, 2, 'POINT', 2, 'COMMA')}">R$ #####,##</p>
+            <h2>Categorias de Brinquedos</h2>
+            <div class="categorias-destaque">
+                <div class="categoria" th:each="categoria : ${categorias}">
+					<img th:src="@{/images/default.png}" th:alt="${categoria.nome}">
+                    <h3 th:text="${categoria.nome}">Categoria</h3>
+                    <p th:text="${categoria.descricao}">Descrição da Categoria</p>
                 </div>
             </div>
         </main>
