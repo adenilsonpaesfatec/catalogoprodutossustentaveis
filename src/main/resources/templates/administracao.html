@@ -26,6 +26,8 @@
         </div>
         <main>
             <h2>Administração de Brinquedos</h2>
+			<hr>
+			<br>
             <table class="brinquedos-tabela">
                 <thead>
                     <tr>
@@ -37,7 +39,7 @@
                 </thead>
                 <tbody th:each="brinquedo : ${brinquedos}">
                     <tr>
-                        <td th:text="${brinquedo.descricao}">Descrição do Brinquedo</td>
+						<td th:text="${brinquedo.descricao}">Descrição do Brinquedo</td>
                         <td th:text="${brinquedo.categoria.nome}">Nome da Categoria</td>
                         <td th:text="${'R$ ' + #numbers.formatDecimal(brinquedo.valor, 2, 'POINT', 2, 'COMMA')}">Valor do Brinquedo</td>
                         <td>
