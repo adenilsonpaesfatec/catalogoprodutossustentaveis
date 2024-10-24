@@ -13,39 +13,43 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name="categorias")
-public class Categoria {
+public class CategoriaModel {
     // Atributos
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="cat_id")
-    private int id;
+    private Long id;
 
     @Column(name="cat_nome")
     private String nome;
 
     @Column(name="cat_descricao")
     private String descricao;
+    
+    @Column(name="cat_imagem")
+    private String imagem;
 
     @JsonIgnore
     @OneToMany(mappedBy = "categoria")
-    private List<Brinquedo> brinquedos;
+    private List<BrinquedoModel> brinquedos;
 
     // Construtores
-    public Categoria() {
+    public CategoriaModel() {
     }
 
-    public Categoria(int id, String nome, String descricao) {
+    public CategoriaModel(Long id, String nome, String descricao, String imagem) {
         this.id = id;
         this.nome = nome;
         this.descricao = descricao;
+        this.imagem = imagem;
     }
 
     // Getters e Setters
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -64,12 +68,20 @@ public class Categoria {
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
+    
+    public String getImagem() {
+        return imagem;
+    }
 
-    public List<Brinquedo> getBrinquedos() {
+    public void setImagem(String imagem) {
+        this.imagem = imagem;
+    }
+
+    public List<BrinquedoModel> getBrinquedos() {
         return brinquedos;
     }
 
-    public void setBrinquedos(List<Brinquedo> brinquedos) {
+    public void setBrinquedos(List<BrinquedoModel> brinquedos) {
         this.brinquedos = brinquedos;
     }
 }

@@ -13,19 +13,19 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name="brinquedos")
-public class Brinquedo {
+public class BrinquedoModel {
     // Atributos
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="bri_id")
-    private int id;
+    private Long id;
 
     @Column(name="bri_descricao")
     private String descricao;
 
     @ManyToOne
     @JoinColumn(name="cat_id")
-    private Categoria categoria;
+    private CategoriaModel categoria;
 
     @Column(name="bri_marca")
     private String marca;
@@ -40,10 +40,10 @@ public class Brinquedo {
     private String detalhes;
 
     // Construtores
-    public Brinquedo() {
+    public BrinquedoModel() {
     }
 
-    public Brinquedo(int id, String descricao, Categoria categoria, String marca, String imagem, BigDecimal valor, String detalhes) {
+    public BrinquedoModel(Long id, String descricao, CategoriaModel categoria, String marca, String imagem, BigDecimal valor, String detalhes) {
         this.id = id;
         this.descricao = descricao;
         this.categoria = categoria;
@@ -54,11 +54,11 @@ public class Brinquedo {
     }
 
     // Getters e Setters
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -70,11 +70,11 @@ public class Brinquedo {
         this.descricao = descricao;
     }
 
-    public Categoria getCategoria() {
+    public CategoriaModel getCategoria() {
         return categoria;
     }
 
-    public void setCategoria(Categoria categoria) {
+    public void setCategoria(CategoriaModel categoria) {
         this.categoria = categoria;
     }
 

@@ -1,6 +1,6 @@
 package br.com.catalogodebrinquedos.controller;
 
-import br.com.catalogodebrinquedos.model.Categoria;
+import br.com.catalogodebrinquedos.model.CategoriaModel;
 import br.com.catalogodebrinquedos.model.repository.CategoriaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,26 +17,26 @@ public class CategoriaController {
     private CategoriaRepository categoriaRepository;
 
     @GetMapping
-    public List<Categoria> listarTodas() {
+    public List<CategoriaModel> listarTodas() {
         return categoriaRepository.findAll();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Categoria> buscarPorId(@PathVariable int id) {
-        Optional<Categoria> categoria = categoriaRepository.findById(id);
+    public ResponseEntity<CategoriaModel> buscarPorId(@PathVariable Long id) {
+        Optional<CategoriaModel> categoria = categoriaRepository.findById(id);
         return categoria.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public Categoria adicionarCategoria(@RequestBody Categoria categoria) {
+    public CategoriaModel adicionarCategoria(@RequestBody CategoriaModel categoria) {
         return categoriaRepository.save(categoria);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Categoria> atualizarCategoria(@PathVariable int id, @RequestBody Categoria categoriaAtualizada) {
-        Optional<Categoria> categoriaExistente = categoriaRepository.findById(id);
+    public ResponseEntity<CategoriaModel> atualizarCategoria(@PathVariable Long id, @RequestBody CategoriaModel categoriaAtualizada) {
+        Optional<CategoriaModel> categoriaExistente = categoriaRepository.findById(id);
         if (categoriaExistente.isPresent()) {
-            Categoria categoria = categoriaExistente.get();
+            CategoriaModel categoria = categoriaExistente.get();
             categoria.setNome(categoriaAtualizada.getNome());
             categoria.setDescricao(categoriaAtualizada.getDescricao());
             return ResponseEntity.ok(categoriaRepository.save(categoria));
@@ -46,7 +46,7 @@ public class CategoriaController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletarCategoria(@PathVariable int id) {
+    public ResponseEntity<Void> deletarCategoria(@PathVariable Long id) {
         if (categoriaRepository.existsById(id)) {
             categoriaRepository.deleteById(id);
             return ResponseEntity.noContent().build();

@@ -1,7 +1,7 @@
 package br.com.catalogodebrinquedos.controller;
 
-import br.com.catalogodebrinquedos.model.Brinquedo;
-import br.com.catalogodebrinquedos.model.Categoria;
+import br.com.catalogodebrinquedos.model.BrinquedoModel;
+import br.com.catalogodebrinquedos.model.CategoriaModel;
 import br.com.catalogodebrinquedos.model.repository.BrinquedoRepository;
 import br.com.catalogodebrinquedos.model.repository.CategoriaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,28 +22,28 @@ public class BrinquedoController {
     private CategoriaRepository categoriaRepository;
 
     @GetMapping
-    public List<Brinquedo> listarTodosBrinquedos() {
+    public List<BrinquedoModel> listarTodosBrinquedos() {
         return brinquedoRepository.findAll();
     }
     
     @GetMapping("/{id}")
-    public ResponseEntity<Brinquedo> buscarPorId(@PathVariable int id) {
-        Optional<Brinquedo> brinquedo = brinquedoRepository.findById(id);
+    public ResponseEntity<BrinquedoModel> buscarPorId(@PathVariable Long id) {
+        Optional<BrinquedoModel> brinquedo = brinquedoRepository.findById(id);
         return brinquedo.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public ResponseEntity<Brinquedo> adicionarBrinquedo(@RequestBody Brinquedo brinquedo) {
+    public ResponseEntity<BrinquedoModel> adicionarBrinquedo(@RequestBody BrinquedoModel brinquedo) {
         try {
             if (brinquedo.getCategoria() != null) {
-                Optional<Categoria> categoria = categoriaRepository.findById(brinquedo.getCategoria().getId());
+                Optional<CategoriaModel> categoria = categoriaRepository.findById(brinquedo.getCategoria().getId());
                 if (categoria.isPresent()) {
                     brinquedo.setCategoria(categoria.get());
                 } else {
                     return ResponseEntity.badRequest().body(null);
                 }
             }
-            Brinquedo brinquedoSalvo = brinquedoRepository.save(brinquedo);
+            BrinquedoModel brinquedoSalvo = brinquedoRepository.save(brinquedo);
             return ResponseEntity.ok(brinquedoSalvo);
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
@@ -51,10 +51,10 @@ public class BrinquedoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Brinquedo> atualizarBrinquedo(@PathVariable int id, @RequestBody Brinquedo brinquedoAtualizado) {
-        Optional<Brinquedo> brinquedoExistente = brinquedoRepository.findById(id);
+    public ResponseEntity<BrinquedoModel> atualizarBrinquedo(@PathVariable Long id, @RequestBody BrinquedoModel brinquedoAtualizado) {
+        Optional<BrinquedoModel> brinquedoExistente = brinquedoRepository.findById(id);
         if (brinquedoExistente.isPresent()) {
-            Brinquedo brinquedo = brinquedoExistente.get();
+            BrinquedoModel brinquedo = brinquedoExistente.get();
             if (brinquedoAtualizado.getDescricao() != null) {
                 brinquedo.setDescricao(brinquedoAtualizado.getDescricao());
             }
@@ -72,14 +72,14 @@ public class BrinquedoController {
             }
 
             if (brinquedoAtualizado.getCategoria() != null) {
-                Optional<Categoria> categoria = categoriaRepository.findById(brinquedoAtualizado.getCategoria().getId());
+                Optional<CategoriaModel> categoria = categoriaRepository.findById(brinquedoAtualizado.getCategoria().getId());
                 if (categoria.isPresent()) {
                     brinquedo.setCategoria(categoria.get());
                 } else {
                     return ResponseEntity.badRequest().body(null);
                 }
             }
-            Brinquedo brinquedoSalvo = brinquedoRepository.save(brinquedo);
+            BrinquedoModel brinquedoSalvo = brinquedoRepository.save(brinquedo);
             return ResponseEntity.ok(brinquedoSalvo);
         } else {
             return ResponseEntity.notFound().build();
@@ -87,8 +87,8 @@ public class BrinquedoController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletarBrinquedo(@PathVariable int id) {
-        Optional<Brinquedo> brinquedoExistente = brinquedoRepository.findById(id);
+    public ResponseEntity<Void> deletarBrinquedo(@PathVariable Long id) {
+        Optional<BrinquedoModel> brinquedoExistente = brinquedoRepository.findById(id);
         if (brinquedoExistente.isPresent()) {
             brinquedoRepository.deleteById(id);
             return ResponseEntity.noContent().build();
