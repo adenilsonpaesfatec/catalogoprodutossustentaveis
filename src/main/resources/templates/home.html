@@ -32,13 +32,16 @@
 			<br>
 			<div class="brinquedos-destaque">
 				<div class="brinquedo" th:each="brinquedo : ${brinquedos}">
-					<picture>
-						<source type="image/webp" th:srcset="@{/images/} + ${brinquedo.imagem}">
-						<img th:src="@{/images/} + ${brinquedo.imagem}" th:alt="${'Brinquedo ' + brinquedo.id}">
-					</picture>
-					<h3 th:text="${brinquedo.descricao}">Brinquedo</h3>
-					<p th:text="${'R$ ' + #numbers.formatDecimal(brinquedo.valor, 2, 'POINT', 2, 'COMMA')}">R$ #####,##
-					</p>
+					<a th:href="@{/web/catalogodebrinquedos/brinquedo/{id}(id=${brinquedo.id})}">
+						<picture>
+							<source type="image/webp" th:srcset="@{/images/} + ${brinquedo.imagem}">
+							<img th:src="@{/images/} + ${brinquedo.imagem}" th:alt="${'Brinquedo ' + brinquedo.id}">
+						</picture>
+						<h3 th:text="${brinquedo.descricao}">Brinquedo</h3>
+						<p th:text="${'R$ ' + #numbers.formatDecimal(brinquedo.valor, 2, 'POINT', 2, 'COMMA')}">R$
+							#####,##
+						</p>
+					</a>
 				</div>
 			</div>
 		</main>
