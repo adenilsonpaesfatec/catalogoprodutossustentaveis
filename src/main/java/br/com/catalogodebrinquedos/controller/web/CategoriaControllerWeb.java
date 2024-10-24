@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/web")
@@ -34,17 +33,11 @@ public class CategoriaControllerWeb {
     
     @GetMapping("/catalogodebrinquedos/categoria/{id}")
     public String exibirBrinquedosPorCategoria(@PathVariable Long id, Model model) {
-        // Busca a categoria pelo ID
         CategoriaModel categoria = categoriaRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("Categoria não encontrada"));
-        
-        // Busca os brinquedos pela categoria
         List<BrinquedoModel> brinquedos = brinquedoRepository.findByCategoriaId(id);
-
-        // Adiciona a lista de brinquedos e o nome da categoria ao modelo
         model.addAttribute("brinquedos", brinquedos);
         model.addAttribute("categoriaNome", categoria.getNome());
-
         return "brinquedosporcategoria";
     }
 
