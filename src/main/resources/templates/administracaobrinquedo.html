@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Catálogo de Brinquedos</title>
+	<link rel="stylesheet" th:href="@{/style/style.css}">
+</head>
+
+<body>
+	<div class="container">
+		<header class="header">
+			<div class="logo">
+				<img th:src="@{/images/imagemlogo.webp}" alt="Logo">
+			</div>
+			<div class="header-title">
+				<h1>Catálogo de Brinquedos</h1>
+			</div>
+		</header>
+		<div class="menu-lateral">
+			<h2>MENU PRINCIPAL</h2>
+			<ul>
+				<li><a th:href="@{/web/home}">Home</a></li>
+				<li><a th:href="@{/web/catalogodebrinquedos}">Catálogo de Brinquedos</a></li>
+				<li><a th:href="@{/web/administracao/brinquedo}">Administração</a></li>
+				<li><a th:href="@{/web/sobre}">Sobre a equipe</a></li>
+			</ul>
+		</div>
+		<main>
+			<h2>Administração : : Brinquedos</h2>
+			<hr>
+			<br>
+			<table class="brinquedos-tabela">
+				<thead>
+					<tr>
+						<th>Descrição</th>
+						<th>Categoria</th>
+						<th>Valor</th>
+						<th>Controles</th>
+					</tr>
+				</thead>
+				<tbody th:each="brinquedo : ${brinquedos}">
+					<tr>
+						<td th:text="${brinquedo.descricao}">Descrição do Brinquedo</td>
+						<td th:text="${brinquedo.categoria.nome}">Nome da Categoria</td>
+						<td th:text="${'R$ ' + #numbers.formatDecimal(brinquedo.valor, 2, 'POINT', 2, 'COMMA')}">Valor
+							do Brinquedo</td>
+						<td>
+							<a th:href="@{/web/administracao/brinquedo/editar/{id}(id=${brinquedo.id})}">Editar</a> -
+							<a th:href="@{/web/administracao/brinquedo/excluir/{id}(id=${brinquedo.id})}"
+								th:onclick="'return confirm(\'Confirma a exclusão do brinquedo escolhido?\');'">
+								Excluir
+							</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<div class="botoes-container">
+				<div class="novo-brinquedo">
+					<a th:href="@{/web/administracao/brinquedo/novobrinquedo}" class="btn-novo-brinquedo">Novo
+						Brinquedo</a>
+				</div>
+				<div class="gerenciar-categoria">
+					<a th:href="@{/web/administracao/categoria}" class="btn-gerenciar-categoria">Gerenciar Categoria</a>
+				</div>
+			</div>
+		</main>
+		<footer class="footer">
+			<p>&copy; 2024 Catálogo de Brinquedos. Todos os direitos reservados.</p>
+		</footer>
+	</div>
+</body>
+
+</html>

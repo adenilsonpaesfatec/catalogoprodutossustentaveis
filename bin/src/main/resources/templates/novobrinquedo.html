@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="UTF-8">
-	<title>Catálogo de Brinquedos</title>
+	<title>Catálogo de Brinquedos :: Novo Brinquedo</title>
 	<link rel="stylesheet" th:href="@{/style/style.css}">
 </head>
 
@@ -22,7 +22,7 @@
 			<ul>
 				<li><a th:href="@{/web/home}">Home</a></li>
 				<li><a th:href="@{/web/catalogodebrinquedos}">Catálogo de Brinquedos</a></li>
-				<li><a th:href="@{/web/administracao/brinquedo}">Administração</a></li>
+				<li><a th:href="@{/web/administracao}">Administração</a></li>
 				<li><a th:href="@{/web/sobre}">Sobre a equipe</a></li>
 			</ul>
 		</div>
@@ -30,7 +30,7 @@
 			<h2>Catálogo de Brinquedos : : Novo Brinquedo</h2>
 			<hr>
 			<br>
-			<form th:action="@{/web/administracao/brinquedo/novobrinquedo}" method="post" enctype="multipart/form-data">
+			<form th:action="@{/web/administracao/novobrinquedo}" method="post" enctype="multipart/form-data">
 			    <div class="form-group">
 			        <label for="codigo">CÓDIGO:</label>
 			        <input type="text" id="codigo" name="codigo" disabled>
@@ -47,9 +47,6 @@
 			                Categoria
 			            </option>
 			        </select>
-					<div class="nova-categoria">
-					    <a th:href="@{/web/administracao/categoria/novacategoria}" class="btn-nova-categoria">Nova Categoria</a>
-					</div>
 			    </div>
 			    <div class="form-group">
 			        <label for="marca">MARCA:</label>

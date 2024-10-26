@@ -1,42 +1,54 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Catálogo de Brinquedos</title>
-    <link rel="stylesheet" th:href="@{/style/style.css}">
+	<meta charset="UTF-8">
+	<title>Catálogo de Brinquedos</title>
+	<link rel="stylesheet" th:href="@{/style/style.css}">
 </head>
+
 <body>
-    <div class="container">
-        <header class="header">
-            <div class="logo">
-                <img th:src="@{/images/logo.png}" alt="Logo">
-            </div>
-            <div class="header-title">
-                <h1>Catálogo de Brinquedos</h1>
-            </div>
-        </header>
-        <div class="menu-lateral">
-            <h2>MENU PRINCIPAL</h2>
-            <ul>
-                <li><a th:href="@{/web/home}">Home</a></li>
-                <li><a th:href="@{/web/catalogo}">Catálogo de Brinquedos</a></li>
-                <li><a th:href="@{/web/administracao}">Administração</a></li>
-                <li><a th:href="@{/web/sobre}">Sobre a equipe</a></li>
-            </ul>
-        </div>
-        <main>
-            <h2>Brinquedos em Destaque</h2>
-            <div class="brinquedos-destaque">
-                <div class="brinquedo" th:each="brinquedo : ${brinquedos}">
-                    <img th:src="@{/images/} + ${brinquedo.imagem}" th:alt="${brinquedo.descricao}">
-                    <h3 th:text="${brinquedo.descricao}">Brinquedo</h3>
-                    <p th:text="${'R$ ' + #numbers.formatDecimal(brinquedo.valor, 2, 'POINT', 2, 'COMMA')}">R$ #####,##</p>
-                </div>
-            </div>
-        </main>
-        <footer class="footer">
-            <p>&copy; 2024 Catálogo de Brinquedos. Todos os direitos reservados.</p>
-        </footer>
-    </div>
+	<div class="container">
+		<header class="header">
+			<div class="logo">
+				<img th:src="@{/images/imagemlogo.webp}" alt="Logo">
+			</div>
+			<div class="header-title">
+				<h1>Catálogo de Brinquedos</h1>
+			</div>
+		</header>
+		<div class="menu-lateral">
+			<h2>MENU PRINCIPAL</h2>
+			<ul>
+				<li><a th:href="@{/web/home}">Home</a></li>
+				<li><a th:href="@{/web/catalogodebrinquedos}">Catálogo de Brinquedos</a></li>
+				<li><a th:href="@{/web/administracao}">Administração</a></li>
+				<li><a th:href="@{/web/sobre}">Sobre a equipe</a></li>
+			</ul>
+		</div>
+		<main>
+			<h2>Brinquedos em Destaque</h2>
+			<hr>
+			<br>
+			<div class="brinquedos-destaque">
+				<div class="brinquedo" th:each="brinquedo : ${brinquedos}">
+					<a th:href="@{/web/catalogodebrinquedos/brinquedo/{id}(id=${brinquedo.id})}">
+						<picture>
+							<source type="image/webp" th:srcset="@{/images/} + ${brinquedo.imagem}">
+							<img th:src="@{/images/} + ${brinquedo.imagem}" th:alt="${'Brinquedo ' + brinquedo.id}">
+						</picture>
+						<h3 th:text="${brinquedo.descricao}">Brinquedo</h3>
+						<p th:text="${'R$ ' + #numbers.formatDecimal(brinquedo.valor, 2, 'POINT', 2, 'COMMA')}">R$
+							#####,##
+						</p>
+					</a>
+				</div>
+			</div>
+		</main>
+		<footer class="footer">
+			<p>&copy; 2024 Catálogo de Brinquedos. Todos os direitos reservados.</p>
+		</footer>
+	</div>
 </body>
+
 </html>

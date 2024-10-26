@@ -34,13 +34,6 @@ public class BrinquedoControllerWeb {
         return "home";
     }
     
-    @GetMapping("/administracao")
-    public String administracao(Model model) {
-        List<BrinquedoModel> brinquedos = brinquedoRepository.findAll();
-        model.addAttribute("brinquedos", brinquedos);
-        return "administracao";
-    }
-    
     @GetMapping("/catalogodebrinquedos/brinquedo/{id}")
     public String exibirDetalhesDoBrinquedo(@PathVariable Long id, Model model) {
         BrinquedoModel brinquedo = brinquedoRepository.findById(id)
@@ -48,12 +41,26 @@ public class BrinquedoControllerWeb {
         model.addAttribute("brinquedo", brinquedo);
         return "brinquedo";
     }
+    
+    @GetMapping("/administracao/brinquedo")
+    public String administracaoBrinquedo(Model model) {
+        List<BrinquedoModel> brinquedos = brinquedoRepository.findAll();
+        model.addAttribute("brinquedos", brinquedos);
+        return "administracaobrinquedo";
+    }
 
-    @GetMapping("/administracao/novobrinquedo")
+    @GetMapping("/administracao/brinquedo/novobrinquedo")
     public String exibirFormularioNovoBrinquedo(Model model) {
         List<CategoriaModel> categorias = categoriaRepository.findAll();
         model.addAttribute("categorias", categorias);
         model.addAttribute("brinquedo", new BrinquedoModel());
         return "novobrinquedo";
     }
+    
+    @GetMapping("/administracao/brinquedo/excluir/{id}")
+    public String excluirBrinquedo(@PathVariable Long id) {
+        brinquedoRepository.deleteById(id);
+        return "redirect:/web/administracao/brinquedo";
+    }
+    
 }

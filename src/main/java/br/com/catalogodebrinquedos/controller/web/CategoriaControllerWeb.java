@@ -41,4 +41,23 @@ public class CategoriaControllerWeb {
         return "brinquedosporcategoria";
     }
 
+    @GetMapping("/administracao/categoria")
+    public String administracaoCategoria(Model model) {
+        List<CategoriaModel> categorias = categoriaRepository.findAll();
+        model.addAttribute("categorias", categorias);
+        return "administracaocategoria";
+    }
+    
+    @GetMapping("/administracao/categoria/novacategoria")
+    public String exibirFormularioNovaCategoria(Model model) {
+        model.addAttribute("categoria", new CategoriaModel());
+        return "novacategoria";
+    }
+    
+    @GetMapping("/administracao/categoria/excluir/{id}")
+    public String excluirCategoria(@PathVariable Long id) {
+        categoriaRepository.deleteById(id);
+        return "redirect:/web/administracao/categoria";
+    }
+    
 }

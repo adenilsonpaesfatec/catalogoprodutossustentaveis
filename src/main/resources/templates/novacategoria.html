@@ -27,23 +27,30 @@
 			</ul>
 		</div>
 		<main>
-			<h2 th:text="'Catálogo de Brinquedos : : ' + ${categoriaNome}">Catálogo de Brinquedos</h2>
+			<h2>Catálogo de Brinquedos : : Nova Categoria</h2>
 			<hr>
 			<br>
-			<div class="brinquedos-destaque">
-				<div class="brinquedo" th:each="brinquedo : ${brinquedos}">
-					<a th:href="@{/web/catalogodebrinquedos/brinquedo/{id}(id=${brinquedo.id})}">
-						<picture>
-							<source type="image/webp" th:srcset="@{/images/} + ${brinquedo.imagem}">
-							<img th:src="@{/images/} + ${brinquedo.imagem}" th:alt="${'Brinquedo ' + brinquedo.id}">
-						</picture>
-						<h3 th:text="${brinquedo.descricao}">Brinquedo</h3>
-						<p th:text="${'R$ ' + #numbers.formatDecimal(brinquedo.valor, 2, 'POINT', 2, 'COMMA')}">R$
-							#####,##
-						</p>
-					</a>
+			<form th:action="@{/web/administracao/categoria/novacategoria}" method="post" enctype="multipart/form-data">
+			    <div class="form-group">
+			        <label for="codigo">CÓDIGO:</label>
+			        <input type="text" id="codigo" name="codigo" disabled>
+			    </div>
+				<div class="form-group">
+				    <label for="descricao">NOME:</label>
+				    <input type="text" id="nome" name="nome" required>
 				</div>
-			</div>
+			    <div class="form-group">
+			        <label for="descricao">DESCRIÇÃO:</label>
+			        <input type="text" id="descricao" name="descricao" required>
+			    </div>
+			    <div class="form-group">
+			        <label for="imagem">IMAGEM:</label>
+					<input type="file" id="imagem" name="imagem" accept="image/*">
+			    </div>
+			    <div class="form-group botao-salvar">
+			        <button type="submit">SALVAR DADOS</button>
+			    </div>
+			</form>
 		</main>
 		<footer class="footer">
 			<p>&copy; 2024 Catálogo de Brinquedos. Todos os direitos reservados.</p>
