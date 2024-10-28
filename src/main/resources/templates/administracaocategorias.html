@@ -22,7 +22,7 @@
 			<ul>
 				<li><a th:href="@{/web/home}">Home</a></li>
 				<li><a th:href="@{/web/catalogodebrinquedos}">Catálogo de Brinquedos</a></li>
-				<li><a th:href="@{/web/administracao/brinquedo}">Administração</a></li>
+				<li><a th:href="@{/web/administracao/brinquedos}">Administração</a></li>
 				<li><a th:href="@{/web/sobre}">Sobre a equipe</a></li>
 			</ul>
 		</div>
@@ -43,8 +43,8 @@
 						<td th:text="${categoria.nome}">Nome da categoria</td>
 						<td th:text="${categoria.descricao}">Descrição da Categoria</td>
 						<td>
-							<a th:href="@{/web/administracao/categoria/editar/{id}(id=${categoria.id})}">Editar</a> -
-							<a th:href="@{/web/administracao/categoria/excluir/{id}(id=${categoria.id})}"
+							<a th:href="@{/web/administracao/categorias/editar/{id}(id=${categoria.id})}">Editar</a> -
+							<a th:href="@{/web/administracao/categorias/excluir/{id}(id=${categoria.id})}"
 								th:onclick="'return confirm(\'Confirma a exclusão da categoria escolhida?\');'">
 								Excluir
 							</a>
@@ -54,10 +54,10 @@
 			</table>
 			<div class="botoes-container">
 				<div class="nova-categoria">
-				    <a th:href="@{/web/administracao/categoria/novacategoria}" class="btn-nova-categoria">Nova Categoria</a>
+				    <a th:href="@{/web/administracao/categorias/novacategoria}" class="btn-nova-categoria">Nova Categoria</a>
 				</div>
 				<div class="novo-brinquedo">
-			        <a th:href="@{/web/administracao/brinquedo/novobrinquedo}" class="btn-novo-brinquedo">Novo Brinquedo</a>
+			        <a th:href="@{/web/administracao/brinquedos/novobrinquedo}" class="btn-novo-brinquedo">Novo Brinquedo</a>
 			    </div>
 			</div>
 		</main>

@@ -22,7 +22,7 @@
 			<ul>
 				<li><a th:href="@{/web/home}">Home</a></li>
 				<li><a th:href="@{/web/catalogodebrinquedos}">Catálogo de Brinquedos</a></li>
-				<li><a th:href="@{/web/administracao/brinquedo}">Administração</a></li>
+				<li><a th:href="@{/web/administracao/brinquedos}">Administração</a></li>
 				<li><a th:href="@{/web/sobre}">Sobre a equipe</a></li>
 			</ul>
 		</div>
@@ -46,8 +46,8 @@
 						<td th:text="${'R$ ' + #numbers.formatDecimal(brinquedo.valor, 2, 'POINT', 2, 'COMMA')}">Valor
 							do Brinquedo</td>
 						<td>
-							<a th:href="@{/web/administracao/brinquedo/editar/{id}(id=${brinquedo.id})}">Editar</a> -
-							<a th:href="@{/web/administracao/brinquedo/excluir/{id}(id=${brinquedo.id})}"
+							<a th:href="@{/web/administracao/brinquedos/editar/{id}(id=${brinquedo.id})}">Editar</a> -
+							<a th:href="@{/web/administracao/brinquedos/excluir/{id}(id=${brinquedo.id})}"
 								th:onclick="'return confirm(\'Confirma a exclusão do brinquedo escolhido?\');'">
 								Excluir
 							</a>
@@ -57,11 +57,11 @@
 			</table>
 			<div class="botoes-container">
 				<div class="novo-brinquedo">
-					<a th:href="@{/web/administracao/brinquedo/novobrinquedo}" class="btn-novo-brinquedo">Novo
+					<a th:href="@{/web/administracao/brinquedos/novobrinquedo}" class="btn-novo-brinquedo">Novo
 						Brinquedo</a>
 				</div>
 				<div class="gerenciar-categoria">
-					<a th:href="@{/web/administracao/categoria}" class="btn-gerenciar-categoria">Gerenciar Categoria</a>
+					<a th:href="@{/web/administracao/categorias}" class="btn-gerenciar-categoria">Gerenciar Categoria</a>
 				</div>
 			</div>
 		</main>

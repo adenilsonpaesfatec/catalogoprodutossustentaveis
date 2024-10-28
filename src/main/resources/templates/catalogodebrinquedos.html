@@ -22,7 +22,7 @@
 			<ul>
 				<li><a th:href="@{/web/home}">Home</a></li>
 				<li><a th:href="@{/web/catalogodebrinquedos}">Catálogo de Brinquedos</a></li>
-				<li><a th:href="@{/web/administracao/brinquedo}">Administração</a></li>
+				<li><a th:href="@{/web/administracao/brinquedos}">Administração</a></li>
 				<li><a th:href="@{/web/sobre}">Sobre a equipe</a></li>
 			</ul>
 		</div>
@@ -32,10 +32,9 @@
 			<br>
 			<div class="categorias-destaque">
 				<div class="categoria" th:each="categoria : ${categorias}">
-					<a th:href="@{/web/catalogodebrinquedos/categoria/{id}(id=${categoria.id})}">
+					<a th:href="@{/web/catalogodebrinquedos/categorias/{id}(id=${categoria.id})}">
 						<picture>
-							<source type="image/webp" th:srcset="@{/images/} + ${categoria.imagem}">
-							<img th:src="@{/images/} + ${categoria.imagem}" th:alt="${'Categoria ' + categoria.id}">
+							<img th:src="@{/web/administracao/categorias/categoria/{id}(id=${categoria.id})}" th:alt="${'Categoria ' + categoria.id}">
 						</picture>
 						<h3 th:text="${categoria.nome}">Categoria</h3>
 					</a>

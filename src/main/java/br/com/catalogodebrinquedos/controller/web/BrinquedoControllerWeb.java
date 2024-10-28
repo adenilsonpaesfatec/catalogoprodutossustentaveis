@@ -24,7 +24,7 @@ public class BrinquedoControllerWeb {
     
     @Autowired
     private CategoriaRepository categoriaRepository;
-
+    
     @GetMapping("/home")
     public String home(Model model) {
         List<BrinquedoModel> brinquedos = brinquedoRepository.findAll();
@@ -34,7 +34,7 @@ public class BrinquedoControllerWeb {
         return "home";
     }
     
-    @GetMapping("/catalogodebrinquedos/brinquedo/{id}")
+    @GetMapping("/catalogodebrinquedos/brinquedos/{id}")
     public String exibirDetalhesDoBrinquedo(@PathVariable Long id, Model model) {
         BrinquedoModel brinquedo = brinquedoRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("Brinquedo não encontrado"));
@@ -42,14 +42,14 @@ public class BrinquedoControllerWeb {
         return "brinquedo";
     }
     
-    @GetMapping("/administracao/brinquedo")
+    @GetMapping("/administracao/brinquedos")
     public String administracaoBrinquedo(Model model) {
         List<BrinquedoModel> brinquedos = brinquedoRepository.findAll();
         model.addAttribute("brinquedos", brinquedos);
-        return "administracaobrinquedo";
+        return "administracaobrinquedos";
     }
 
-    @GetMapping("/administracao/brinquedo/novobrinquedo")
+    @GetMapping("/administracao/brinquedos/novobrinquedo")
     public String exibirFormularioNovoBrinquedo(Model model) {
         List<CategoriaModel> categorias = categoriaRepository.findAll();
         model.addAttribute("categorias", categorias);
@@ -57,10 +57,10 @@ public class BrinquedoControllerWeb {
         return "novobrinquedo";
     }
     
-    @GetMapping("/administracao/brinquedo/excluir/{id}")
+    @GetMapping("/administracao/brinquedos/excluir/{id}")
     public String excluirBrinquedo(@PathVariable Long id) {
         brinquedoRepository.deleteById(id);
-        return "redirect:/web/administracao/brinquedo";
+        return "redirect:/web/administracaos/brinquedo";
     }
     
 }

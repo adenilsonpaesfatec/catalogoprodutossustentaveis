@@ -262,6 +262,13 @@ textarea {
 	height: 100px;
 }
 
+.form-group-message {
+	grid-column: 1 / -1;
+	text-align: center;
+	padding: 10px;
+	background-color: #f8f8f8;
+}
+
 .botao-salvar {
 	display: flex;
 	justify-content: center;

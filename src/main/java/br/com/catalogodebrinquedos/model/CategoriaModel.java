@@ -1,20 +1,15 @@
 package br.com.catalogodebrinquedos.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.*;
+
 @Entity
 @Table(name="categorias")
 public class CategoriaModel {
-    // Atributos
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="cat_id")
@@ -26,62 +21,64 @@ public class CategoriaModel {
     @Column(name="cat_descricao")
     private String descricao;
     
-    @Column(name="cat_imagem")
-    private String imagem;
+    @Lob
+    @Column(name="cat_imagem", columnDefinition = "MEDIUMBLOB")
+    private byte[] imagem;
 
     @JsonIgnore
     @OneToMany(mappedBy = "categoria")
     private List<BrinquedoModel> brinquedos;
 
-    // Construtores
-    public CategoriaModel() {
-    }
+	public CategoriaModel() {
+	}
 
-    public CategoriaModel(Long id, String nome, String descricao, String imagem) {
-        this.id = id;
-        this.nome = nome;
-        this.descricao = descricao;
-        this.imagem = imagem;
-    }
+	public CategoriaModel(Long id, String nome, String descricao, byte[] imagem, List<BrinquedoModel> brinquedos) {
+		super();
+		this.id = id;
+		this.nome = nome;
+		this.descricao = descricao;
+		this.imagem = imagem;
+		this.brinquedos = brinquedos;
+	}
 
-    // Getters e Setters
-    public Long getId() {
-        return id;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public String getNome() {
-        return nome;
-    }
+	public String getNome() {
+		return nome;
+	}
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
 
-    public String getDescricao() {
-        return descricao;
-    }
+	public String getDescricao() {
+		return descricao;
+	}
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
+
+	public byte[] getImagem() {
+		return imagem;
+	}
+
+	public void setImagem(byte[] imagem) {
+		this.imagem = imagem;
+	}
+
+	public List<BrinquedoModel> getBrinquedos() {
+		return brinquedos;
+	}
+
+	public void setBrinquedos(List<BrinquedoModel> brinquedos) {
+		this.brinquedos = brinquedos;
+	}
     
-    public String getImagem() {
-        return imagem;
-    }
-
-    public void setImagem(String imagem) {
-        this.imagem = imagem;
-    }
-
-    public List<BrinquedoModel> getBrinquedos() {
-        return brinquedos;
-    }
-
-    public void setBrinquedos(List<BrinquedoModel> brinquedos) {
-        this.brinquedos = brinquedos;
-    }
 }
