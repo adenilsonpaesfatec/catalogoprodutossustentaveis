@@ -14,36 +14,37 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name="brinquedos")
 public class BrinquedoModel {
-    // Atributos
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="bri_id")
     private Long id;
 
-    @Column(name="bri_descricao")
+    @Column(name="bri_descricao", nullable = false, length = 255)
     private String descricao;
 
     @ManyToOne
-    @JoinColumn(name="cat_id")
+    @JoinColumn(name="cat_id", nullable = false)
     private CategoriaModel categoria;
 
-    @Column(name="bri_marca")
+    @Column(name="bri_marca", nullable = false, length = 100)
     private String marca;
 
-    @Column(name="bri_imagem")
-    private String imagem;
+    @Column(name="bri_imagem", columnDefinition = "MEDIUMBLOB")
+    private byte[] imagem;
 
-    @Column(name="bri_valor")
+    @Column(name="bri_valor", nullable = false)
     private BigDecimal valor;
 
-    @Column(name="bri_detalhes")
+    @Column(name="bri_detalhes", length = 500)
     private String detalhes;
 
-    // Construtores
     public BrinquedoModel() {
     }
 
-    public BrinquedoModel(Long id, String descricao, CategoriaModel categoria, String marca, String imagem, BigDecimal valor, String detalhes) {
+    public BrinquedoModel(Long id, String descricao, CategoriaModel categoria, String marca, byte[] imagem,
+            BigDecimal valor, String detalhes) {
+        super();
         this.id = id;
         this.descricao = descricao;
         this.categoria = categoria;
@@ -53,7 +54,6 @@ public class BrinquedoModel {
         this.detalhes = detalhes;
     }
 
-    // Getters e Setters
     public Long getId() {
         return id;
     }
@@ -86,11 +86,11 @@ public class BrinquedoModel {
         this.marca = marca;
     }
 
-    public String getImagem() {
+    public byte[] getImagem() {
         return imagem;
     }
 
-    public void setImagem(String imagem) {
+    public void setImagem(byte[] imagem) {
         this.imagem = imagem;
     }
 

@@ -52,8 +52,8 @@
 					<label for="imagem">IMAGEM:</label>
 					<input type="file" id="imagem" name="imagem" th:field="*{imagem}" accept="image/*">
 				</div>
-				<div class="form-group-message">
-					<h5>Escolha uma nova imagem ou deixe em branco para manter a mesma.</h5>
+				<div class="form-group-message" th:if="${!novo}">
+					<h5>Selecione uma nova imagem ou deixe em branco para manter a mesma.</h5>
 				</div>
 				<div class="form-group botao-salvar">
 					<button type="submit">SALVAR DADOS</button>

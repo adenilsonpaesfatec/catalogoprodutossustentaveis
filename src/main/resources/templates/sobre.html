@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Catálogo de Brinquedos</title>
+	<link rel="stylesheet" th:href="@{/style/style.css}">
+</head>
+
+<body>
+	<div class="container">
+		<header class="header">
+			<div class="logo">
+				<img th:src="@{/images/imagemlogo.webp}" alt="Logo">
+			</div>
+			<div class="header-title">
+				<h1>Catálogo de Brinquedos</h1>
+			</div>
+		</header>
+		<div class="menu-lateral">
+			<h2>MENU PRINCIPAL</h2>
+			<ul>
+				<li><a th:href="@{/web/home}">Home</a></li>
+				<li><a th:href="@{/web/catalogodebrinquedos}">Catálogo de Brinquedos</a></li>
+				<li><a th:href="@{/web/administracao/brinquedos}">Administração</a></li>
+				<li><a th:href="@{/web/sobre}">Sobre a equipe</a></li>
+			</ul>
+		</div>
+		<main>
+			<h2>Sobre</h2>
+			<hr>
+			<br>
+			<div class="team-members">
+				<div class="member">
+					<img th:src="@{/images/adenilson.jpg}" alt="Foto Adenilson">
+					<p>Adenilson Paes</p>
+					<p>1840482123053</p>
+				</div>
+				<div class="member">
+					<img th:src="@{/images/paula.jpg}" alt="Foto Maria Paula">
+					<p>Maria Paula</p>
+					<p>1840482123045</p>
+				</div>
+				<div class="member">
+					<img th:src="@{/images/monica.jpg}" alt="Foto Monica">
+					<p>Monica Ribeiro</p>
+					<p>1840482023023</p>
+				</div>
+				<div class="member">
+					<img th:src="@{/images/renata.jpg}" alt="Foto Renata">
+					<p>Renata Fabiana</p>
+					<p>1840482123032</p>
+				</div>
+			</div>
+		</main>
+		<footer class="footer">
+			<p>&copy; 2024 Catálogo de Brinquedos. Todos os direitos reservados.</p>
+		</footer>
+	</div>
+</body>
+
+</html>
