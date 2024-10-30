@@ -5,6 +5,7 @@
 	<meta charset="UTF-8">
 	<title>Catálogo de Brinquedos</title>
 	<link rel="stylesheet" th:href="@{/style/style.css}">
+	<link rel="icon" type="image/x-icon" th:href="@{/images/favicon.png}">
 </head>
 
 <body>
@@ -43,7 +44,7 @@
 					<tr>
 						<td th:text="${brinquedo.descricao}">Descrição do Brinquedo</td>
 						<td th:text="${brinquedo.categoria.nome}">Nome da Categoria</td>
-						<td th:text="${'R$ ' + #numbers.formatDecimal(brinquedo.valor, 2, 'POINT', 2, 'COMMA')}">Valor
+						<td th:text="${'R$ ' + #numbers.formatDecimal(brinquedo.valor, 1, 'POINT', 2, 'COMMA')}">Valor
 							do Brinquedo</td>
 						<td>
 							<a th:href="@{/web/administracao/brinquedos/editar/{id}(id=${brinquedo.id})}">Editar</a> -

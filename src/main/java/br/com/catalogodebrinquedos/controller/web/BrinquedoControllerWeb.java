@@ -3,7 +3,6 @@ package br.com.catalogodebrinquedos.controller.web;
 import br.com.catalogodebrinquedos.dto.BrinquedoDTO;
 import br.com.catalogodebrinquedos.model.BrinquedoModel;
 import br.com.catalogodebrinquedos.model.CategoriaModel;
-import br.com.catalogodebrinquedos.model.repository.BrinquedoRepository;
 import br.com.catalogodebrinquedos.service.BrinquedoService;
 import br.com.catalogodebrinquedos.service.CategoriaService;
 
@@ -14,11 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
@@ -42,11 +37,14 @@ public class BrinquedoControllerWeb {
 	private CategoriaService categoriaService;
 
 	@Autowired
-	private BrinquedoRepository brinquedoRepository;
-
-	@Autowired
 	private MessageSource messageSource;
 
+	/**
+	 * Exibe a página inicial com uma lista aleatória de brinquedos.
+	 *
+	 * @param model O modelo que contém os atributos para a view.
+	 * @return A página inicial 'home'.
+	 */
 	@GetMapping("/home")
 	public String home(Model model) {
 		List<BrinquedoModel> brinquedos = brinquedoService.listarBrinquedos();
@@ -65,7 +63,7 @@ public class BrinquedoControllerWeb {
 	 */
 	@GetMapping("/catalogodebrinquedos/brinquedos/brinquedo/{id}")
 	public String exibirDetalhesDoBrinquedo(@PathVariable Long id, Model model) {
-		BrinquedoModel brinquedo = brinquedoRepository.findById(id).orElseThrow(() -> new RuntimeException(
+		BrinquedoModel brinquedo = brinquedoService.buscarBrinquedoPorId(id).orElseThrow(() -> new RuntimeException(
 				messageSource.getMessage("brinquedoControllerWeb.naoencontrado", null, Locale.getDefault())));
 		model.addAttribute("brinquedo", brinquedo);
 		return "brinquedodetalhes";
@@ -107,7 +105,6 @@ public class BrinquedoControllerWeb {
 			model.addAttribute("brinquedo", brinquedoDTO);
 		}, () -> model.addAttribute("errorMessage",
 				messageSource.getMessage("brinquedoControllerWeb.naoencontrado", null, Locale.getDefault())));
-
 		List<CategoriaModel> categorias = categoriaService.listarCategorias();
 		model.addAttribute("categorias", categorias);
 		model.addAttribute("novo", false);
@@ -125,16 +122,12 @@ public class BrinquedoControllerWeb {
 	@PostMapping("/administracao/brinquedos/novobrinquedo")
 	public String salvarBrinquedo(@ModelAttribute BrinquedoDTO brinquedoDTO, RedirectAttributes redirectAttributes) {
 		BrinquedoModel brinquedo;
-
-		// Verifica se o brinquedo já existe para edição ou criação de um novo
 		if (brinquedoDTO.getId() != null && brinquedoDTO.getId() > 0) {
 			Optional<BrinquedoModel> brinquedoExistente = brinquedoService.buscarBrinquedoPorId(brinquedoDTO.getId());
 			brinquedo = brinquedoExistente.orElseGet(BrinquedoModel::new);
 		} else {
 			brinquedo = new BrinquedoModel();
 		}
-
-		// Validações de campos obrigatórios do brinquedo
 		if (brinquedoDTO.getDescricao() == null || brinquedoDTO.getDescricao().isEmpty()) {
 			redirectAttributes.addFlashAttribute("errorMessage", messageSource
 					.getMessage("brinquedoControllerWeb.descricao.obrigatoria", null, Locale.getDefault()));
@@ -150,7 +143,6 @@ public class BrinquedoControllerWeb {
 					messageSource.getMessage("brinquedoControllerWeb.valor.invalido", null, Locale.getDefault()));
 			return "redirect:/web/administracao/brinquedos/novobrinquedo";
 		}
-
 		try {
 			atualizarBrinquedoComDTO(brinquedo, brinquedoDTO);
 		} catch (IOException e) {
@@ -159,7 +151,6 @@ public class BrinquedoControllerWeb {
 			e.printStackTrace();
 			return "redirect:/web/administracao/brinquedos/novobrinquedo";
 		}
-
 		brinquedoService.salvarBrinquedo(brinquedo);
 		redirectAttributes.addFlashAttribute("successMessage",
 				messageSource.getMessage("brinquedoControllerWeb.salvo.sucesso", null, Locale.getDefault()));
@@ -178,16 +169,12 @@ public class BrinquedoControllerWeb {
 		brinquedo.setMarca(brinquedoDTO.getMarca());
 		brinquedo.setValor(brinquedoDTO.getValor());
 		brinquedo.setDetalhes(brinquedoDTO.getDetalhes());
-
-		// Verifica e associa a categoria selecionada
 		if (brinquedoDTO.getCategoriaId() != null) {
 			CategoriaModel categoria = categoriaService.buscarCategoriaPorId(brinquedoDTO.getCategoriaId())
 					.orElseThrow(() -> new RuntimeException(messageSource
 							.getMessage("brinquedoControllerWeb.categoria.naoencontrada", null, Locale.getDefault())));
 			brinquedo.setCategoria(categoria);
 		}
-
-		// Processa a imagem, se disponível
 		if (brinquedoDTO.getImagem() != null && !brinquedoDTO.getImagem().isEmpty()) {
 			brinquedo.setImagem(brinquedoDTO.getImagem().getBytes());
 		}
@@ -200,24 +187,31 @@ public class BrinquedoControllerWeb {
 	 * @return A página 'administracaobrinquedos' com a lista de brinquedos.
 	 */
 	@GetMapping("/administracao/brinquedos")
-	public String administracaoBrinquedos(Model model) {
+	public String listarBrinquedos(Model model) {
 		List<BrinquedoModel> brinquedos = brinquedoService.listarBrinquedos();
 		model.addAttribute("brinquedos", brinquedos);
 		return "administracaobrinquedos";
 	}
 
-    @GetMapping("/administracao/brinquedos/brinquedo/{id}")
-    public ResponseEntity<byte[]> exibirImagemBrinquedo(@PathVariable Long id) {
-        Optional<BrinquedoModel> brinquedo = brinquedoService.buscarBrinquedoPorId(id);
-        if (brinquedo.isPresent() && brinquedo.get().getImagem() != null) {
-            byte[] imagem = brinquedo.get().getImagem();
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(org.springframework.http.MediaType.IMAGE_JPEG);
-            return new ResponseEntity<>(imagem, headers, HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
-	
+	/**
+	 * Exibe a imagem de um brinquedo especificado pelo ID.
+	 *
+	 * @param id O identificador do brinquedo.
+	 * @return Um ResponseEntity contendo a imagem em bytes e o cabeçalho de tipo
+	 *         MIME.
+	 */
+	@GetMapping("/administracao/brinquedos/brinquedo/{id}")
+	public ResponseEntity<byte[]> exibirImagemBrinquedo(@PathVariable Long id) {
+		Optional<BrinquedoModel> brinquedo = brinquedoService.buscarBrinquedoPorId(id);
+		if (brinquedo.isPresent() && brinquedo.get().getImagem() != null) {
+			byte[] imagem = brinquedo.get().getImagem();
+			HttpHeaders headers = new HttpHeaders();
+			headers.setContentType(org.springframework.http.MediaType.IMAGE_JPEG);
+			return new ResponseEntity<>(imagem, headers, HttpStatus.OK);
+		}
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	}
+
 	/**
 	 * Exclui um brinquedo pelo seu identificador.
 	 *
@@ -240,9 +234,14 @@ public class BrinquedoControllerWeb {
 		return "redirect:/web/administracao/brinquedos";
 	}
 
+	/**
+	 * Exibe a página "Sobre a equipe".
+	 *
+	 * @param model O modelo que contém os atributos para a view.
+	 * @return A página 'sobre'.
+	 */
 	@GetMapping("/sobre")
 	public String sobre(Model model) {
 		return "sobre";
 	}
-
 }

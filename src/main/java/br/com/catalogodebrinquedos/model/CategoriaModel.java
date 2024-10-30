@@ -3,43 +3,81 @@ package br.com.catalogodebrinquedos.model;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
+/**
+ * Entidade que representa uma categoria no sistema de catálogo de brinquedos.
+ * Cada categoria possui um nome, descrição, imagem, e uma lista de brinquedos
+ * associados.
+ */
 @Entity
-@Table(name="categorias")
+@Table(name = "categorias")
 public class CategoriaModel {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="cat_id")
-    private Long id;
+	/**
+	 * Identificador único da categoria.
+	 */
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "cat_id")
+	private Long id;
 
-    @Column(name="cat_nome")
-    private String nome;
+	/**
+	 * Nome da categoria. Deve conter entre 2 e 50 caracteres.
+	 */
+	@NotNull(message = "{categoriaDTO.nome.notnull}")
+	@Size(min = 2, max = 50, message = "{categoriaDTO.nome.size}")
+	@Column(name = "cat_nome", nullable = false)
+	private String nome;
 
-    @Column(name="cat_descricao")
-    private String descricao;
-    
-    @Lob
-    @Column(name="cat_imagem", columnDefinition = "MEDIUMBLOB")
-    private byte[] imagem;
+	/**
+	 * Descrição da categoria. Deve conter entre 5 e 255 caracteres.
+	 */
+	@NotNull(message = "{categoriaDTO.descricao.notnull}")
+	@Size(min = 5, max = 255, message = "{categoriaDTO.descricao.size}")
+	@Column(name = "cat_descricao", nullable = false)
+	private String descricao;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "categoria")
-    private List<BrinquedoModel> brinquedos;
+	/**
+	 * Imagem da categoria em formato binário (BLOB).
+	 */
+	@Lob
+	@Column(name = "cat_imagem", columnDefinition = "MEDIUMBLOB")
+	private byte[] imagem;
 
+	/**
+	 * Lista de brinquedos associados a esta categoria.
+	 */
+	@JsonIgnore
+	@OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL)
+	private List<BrinquedoModel> brinquedos;
+
+	/**
+	 * Construtor padrão.
+	 */
 	public CategoriaModel() {
 	}
 
+	/**
+	 * Construtor com todos os parâmetros.
+	 *
+	 * @param id         o identificador da categoria
+	 * @param nome       o nome da categoria
+	 * @param descricao  a descrição da categoria
+	 * @param imagem     a imagem da categoria
+	 * @param brinquedos a lista de brinquedos da categoria
+	 */
 	public CategoriaModel(Long id, String nome, String descricao, byte[] imagem, List<BrinquedoModel> brinquedos) {
-		super();
 		this.id = id;
 		this.nome = nome;
 		this.descricao = descricao;
 		this.imagem = imagem;
 		this.brinquedos = brinquedos;
 	}
+
+	// Getters e Setters
 
 	public Long getId() {
 		return id;
@@ -80,5 +118,4 @@ public class CategoriaModel {
 	public void setBrinquedos(List<BrinquedoModel> brinquedos) {
 		this.brinquedos = brinquedos;
 	}
-    
 }

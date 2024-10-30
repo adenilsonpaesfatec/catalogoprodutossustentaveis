@@ -5,6 +5,7 @@
 	<meta charset="UTF-8">
 	<title>Catálogo de Brinquedos</title>
 	<link rel="stylesheet" th:href="@{/style/style.css}">
+	<link rel="icon" type="image/x-icon" th:href="@{/images/favicon.png}">
 </head>
 
 <body>
@@ -36,14 +37,13 @@
 			<div class="brinquedo-detalhe">
 				<div class="brinquedo-imagem">
 					<picture>
-						<source type="image/webp" th:srcset="@{/images/} + ${brinquedo.imagem}">
-						<img th:src="@{/images/} + ${brinquedo.imagem}" th:alt="${'Brinquedo ' + brinquedo.id}">
+						<img th:src="@{/web/administracao/brinquedos/brinquedo/{id}(id=${brinquedo.id})}" th:alt="${'Brinquedo ' + brinquedo.id}">
 					</picture>
 				</div>
 				<div class="brinquedo-info">
 					<p th:text="'Código do Brinquedo: ' + ${brinquedo.id}">Código do Brinquedo</p>
 					<h3 th:text="${brinquedo.descricao}">Descrição do Brinquedo</h3>
-					<p th:text="${'R$ ' + #numbers.formatDecimal(brinquedo.valor, 2, 'POINT', 2, 'COMMA')}">R$ #####,##
+					<p th:text="${'R$ ' + #numbers.formatDecimal(brinquedo.valor, 1, 'POINT', 2, 'COMMA')}">R$ #####,##
 					</p>
 				</div>
 			</div>
