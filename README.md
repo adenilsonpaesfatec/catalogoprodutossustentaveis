@@ -8,7 +8,7 @@ O projeto "Catálogo de Brinquedos" é uma aplicação Java que tem como objetiv
 
 - **Java** - Linguagem principal para desenvolvimento
 - **Maven** - Gerenciador de dependências e build
-- **Banco de Dados** - (Especificar aqui caso esteja utilizando, como MySQL, PostgreSQL ou H2)
+- **Banco de Dados** - MySQL
 - **JUnit** - Para testes unitários
 - **Git** - Controle de versão
 
@@ -84,8 +84,8 @@ Para obter mais detalhes sobre o uso e a estrutura do sistema, consulte os segui
 
 ## Contribuição
 
-Se desejar contribuir com o projeto, siga as diretrizes descritas em nossa [Política de Contribuição](CONTRIBUTING.md).
+Se desejar contribuir com o projeto, siga as diretrizes descritas em nosso [Política de Contribuição](CONTRIBUTING.md).
 
 ## Licença
 
-Este projeto está licenciado sob a licença MIT - consulte o arquivo `LICENSE` para mais detalhes.
+Este projeto está licenciado sob a licença [MIT](LICENSE).
