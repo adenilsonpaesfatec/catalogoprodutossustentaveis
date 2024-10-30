@@ -2,7 +2,7 @@
 
 ## Descrição do Projeto
 
-O projeto "Catálogo de Brinquedos" é uma aplicação Java que tem como objetivo gerenciar um catálogo de brinquedos, permitindo operações como adição, atualização, exclusão e listagem de itens. O sistema foi desenvolvido para organizar e facilitar o acesso a informações de diversos brinquedos, incluindo descrição, faixa etária, preço, e disponibilidade.
+O projeto "Catálogo de Brinquedos" é uma aplicação Java que tem como objetivo gerenciar um catálogo de brinquedos, permitindo operações como adição, atualização, exclusão e listagem de itens. O sistema foi desenvolvido para organizar e facilitar o acesso a informações de diversos brinquedos, incluindo descrição, categoria, marca, imagem, preço e detalhes adicionais.
 
 ## Tecnologias Utilizadas
 
@@ -73,7 +73,11 @@ java -jar target/catalogodebrinquedos.jar
 - Adicionar novo brinquedo ao catálogo
 - Editar dados de brinquedos existentes
 - Remover brinquedos do catálogo
-- Listar e pesquisar brinquedos com filtros específicos
+- Listar e visualizar brinquedos por categorias
+
+## Documentação Adicional
+
+Para obter mais detalhes sobre o uso do sistema, consulte o [Manual do Usuário](manualdousuario.md).
 
 ## Contribuição
 
