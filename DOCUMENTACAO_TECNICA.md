@@ -88,7 +88,7 @@ O banco de dados relacional utilizado permite um mapeamento direto das entidades
 As credenciais e a URL do banco devem ser configuradas no arquivo `application.properties` em `src/main/resources`, com parâmetros como:
 
 ```properties
-spring.datasource.url=jdbc:mysql://localhost:3306/catalogo_de_brinquedos
+spring.datasource.url=jdbc:mysql://localhost:3306/catalogodebrinquedos
 spring.datasource.username=usuario
 spring.datasource.password=senha
 spring.jpa.hibernate.ddl-auto=update
