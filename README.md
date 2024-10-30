@@ -77,7 +77,10 @@ java -jar target/catalogodebrinquedos.jar
 
 ## Documentação Adicional
 
-Para obter mais detalhes sobre o uso do sistema, consulte o [Manual do Usuário](manualdousuario.md).
+Para obter mais detalhes sobre o uso e a estrutura do sistema, consulte os seguintes documentos:
+
+- [Manual do Usuário](MANUAL_DO_USUARIO.md)
+- [Documentação Técnica](DOCUMENTACAO_TECNICA.md)
 
 ## Contribuição
 
