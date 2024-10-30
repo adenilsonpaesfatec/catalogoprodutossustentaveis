@@ -84,7 +84,7 @@ Para obter mais detalhes sobre o uso e a estrutura do sistema, consulte os segui
 
 ## Contribuição
 
-Sinta-se à vontade para contribuir com o projeto. Para isso, siga as diretrizes de contribuição descritas no arquivo `CONTRIBUTING.md` (a ser criado).
+Se desejar contribuir com o projeto, siga as diretrizes descritas em nossa [Política de Contribuição](CONTRIBUTING.md).
 
 ## Licença
 
