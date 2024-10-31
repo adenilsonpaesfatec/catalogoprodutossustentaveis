@@ -1,7 +1,6 @@
 package br.com.catalogodebrinquedos.model;
 
 import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -9,8 +8,9 @@ import jakarta.validation.constraints.Size;
 
 /**
  * Entidade que representa uma categoria no sistema de catálogo de brinquedos.
- * Cada categoria possui um nome, descrição, imagem, e uma lista de brinquedos
- * associados.
+ * 
+ * <p>Cada categoria possui um nome, descrição, imagem, e uma lista de brinquedos
+ * associados.</p>
  */
 @Entity
 @Table(name = "categorias")
@@ -25,7 +25,8 @@ public class CategoriaModel {
 	private Long id;
 
 	/**
-	 * Nome da categoria. Deve conter entre 2 e 50 caracteres.
+	 * Nome da categoria.
+	 * <p>Deve conter entre 2 e 50 caracteres.</p>
 	 */
 	@NotNull(message = "{categoriaDTO.nome.notnull}")
 	@Size(min = 2, max = 50, message = "{categoriaDTO.nome.size}")
@@ -33,7 +34,8 @@ public class CategoriaModel {
 	private String nome;
 
 	/**
-	 * Descrição da categoria. Deve conter entre 5 e 255 caracteres.
+	 * Descrição da categoria.
+	 * <p>Deve conter entre 5 e 255 caracteres.</p>
 	 */
 	@NotNull(message = "{categoriaDTO.descricao.notnull}")
 	@Size(min = 5, max = 255, message = "{categoriaDTO.descricao.size}")
@@ -66,8 +68,8 @@ public class CategoriaModel {
 	 * @param id         o identificador da categoria
 	 * @param nome       o nome da categoria
 	 * @param descricao  a descrição da categoria
-	 * @param imagem     a imagem da categoria
-	 * @param brinquedos a lista de brinquedos da categoria
+	 * @param imagem     a imagem da categoria em formato binário
+	 * @param brinquedos a lista de brinquedos associados à categoria
 	 */
 	public CategoriaModel(Long id, String nome, String descricao, byte[] imagem, List<BrinquedoModel> brinquedos) {
 		this.id = id;
@@ -79,42 +81,92 @@ public class CategoriaModel {
 
 	// Getters e Setters
 
+	/**
+	 * Obtém o identificador da categoria.
+	 * 
+	 * @return o ID da categoria
+	 */
 	public Long getId() {
 		return id;
 	}
 
+	/**
+	 * Define o identificador da categoria.
+	 * 
+	 * @param id o novo ID da categoria
+	 */
 	public void setId(Long id) {
 		this.id = id;
 	}
 
+	/**
+	 * Obtém o nome da categoria.
+	 * 
+	 * @return o nome da categoria
+	 */
 	public String getNome() {
 		return nome;
 	}
 
+	/**
+	 * Define o nome da categoria.
+	 * 
+	 * @param nome o novo nome da categoria
+	 */
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
 
+	/**
+	 * Obtém a descrição da categoria.
+	 * 
+	 * @return a descrição da categoria
+	 */
 	public String getDescricao() {
 		return descricao;
 	}
 
+	/**
+	 * Define a descrição da categoria.
+	 * 
+	 * @param descricao a nova descrição da categoria
+	 */
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
 
+	/**
+	 * Obtém a imagem da categoria em formato binário.
+	 * 
+	 * @return a imagem da categoria
+	 */
 	public byte[] getImagem() {
 		return imagem;
 	}
 
+	/**
+	 * Define a imagem da categoria em formato binário.
+	 * 
+	 * @param imagem a nova imagem da categoria
+	 */
 	public void setImagem(byte[] imagem) {
 		this.imagem = imagem;
 	}
 
+	/**
+	 * Obtém a lista de brinquedos associados a esta categoria.
+	 * 
+	 * @return a lista de brinquedos da categoria
+	 */
 	public List<BrinquedoModel> getBrinquedos() {
 		return brinquedos;
 	}
 
+	/**
+	 * Define a lista de brinquedos associados a esta categoria.
+	 * 
+	 * @param brinquedos a nova lista de brinquedos da categoria
+	 */
 	public void setBrinquedos(List<BrinquedoModel> brinquedos) {
 		this.brinquedos = brinquedos;
 	}

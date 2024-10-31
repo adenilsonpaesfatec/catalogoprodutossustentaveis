@@ -1,7 +1,6 @@
 package br.com.catalogodebrinquedos.model;
 
 import java.math.BigDecimal;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,6 +15,9 @@ import jakarta.validation.constraints.Size;
 
 /**
  * Entidade que representa um brinquedo no sistema de catálogo de brinquedos.
+ * 
+ * <p>Contém informações como descrição, categoria, marca, imagem, valor e
+ * detalhes adicionais do brinquedo.</p>
  */
 @Entity
 @Table(name = "brinquedos")
@@ -104,58 +106,128 @@ public class BrinquedoModel {
 
 	// Getters e Setters
 
+	/**
+	 * Obtém o identificador do brinquedo.
+	 * 
+	 * @return o ID do brinquedo
+	 */
 	public Long getId() {
 		return id;
 	}
 
+	/**
+	 * Define o identificador do brinquedo.
+	 * 
+	 * @param id o novo ID do brinquedo
+	 */
 	public void setId(Long id) {
 		this.id = id;
 	}
 
+	/**
+	 * Obtém a descrição do brinquedo.
+	 * 
+	 * @return a descrição do brinquedo
+	 */
 	public String getDescricao() {
 		return descricao;
 	}
 
+	/**
+	 * Define a descrição do brinquedo.
+	 * 
+	 * @param descricao a nova descrição do brinquedo
+	 */
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
 
+	/**
+	 * Obtém a categoria do brinquedo.
+	 * 
+	 * @return a categoria do brinquedo
+	 */
 	public CategoriaModel getCategoria() {
 		return categoria;
 	}
 
+	/**
+	 * Define a categoria do brinquedo.
+	 * 
+	 * @param categoria a nova categoria do brinquedo
+	 */
 	public void setCategoria(CategoriaModel categoria) {
 		this.categoria = categoria;
 	}
 
+	/**
+	 * Obtém a marca do brinquedo.
+	 * 
+	 * @return a marca do brinquedo
+	 */
 	public String getMarca() {
 		return marca;
 	}
 
+	/**
+	 * Define a marca do brinquedo.
+	 * 
+	 * @param marca a nova marca do brinquedo
+	 */
 	public void setMarca(String marca) {
 		this.marca = marca;
 	}
 
+	/**
+	 * Obtém a imagem do brinquedo em formato binário.
+	 * 
+	 * @return a imagem do brinquedo
+	 */
 	public byte[] getImagem() {
 		return imagem;
 	}
 
+	/**
+	 * Define a imagem do brinquedo em formato binário.
+	 * 
+	 * @param imagem a nova imagem do brinquedo
+	 */
 	public void setImagem(byte[] imagem) {
 		this.imagem = imagem;
 	}
 
+	/**
+	 * Obtém o valor do brinquedo.
+	 * 
+	 * @return o valor do brinquedo
+	 */
 	public BigDecimal getValor() {
 		return valor;
 	}
 
+	/**
+	 * Define o valor do brinquedo.
+	 * 
+	 * @param valor o novo valor do brinquedo
+	 */
 	public void setValor(BigDecimal valor) {
 		this.valor = valor;
 	}
 
+	/**
+	 * Obtém os detalhes adicionais do brinquedo.
+	 * 
+	 * @return os detalhes do brinquedo
+	 */
 	public String getDetalhes() {
 		return detalhes;
 	}
 
+	/**
+	 * Define os detalhes adicionais do brinquedo.
+	 * 
+	 * @param detalhes os novos detalhes do brinquedo
+	 */
 	public void setDetalhes(String detalhes) {
 		this.detalhes = detalhes;
 	}

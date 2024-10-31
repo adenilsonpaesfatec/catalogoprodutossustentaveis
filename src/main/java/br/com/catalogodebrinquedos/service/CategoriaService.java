@@ -14,6 +14,7 @@ import java.util.Optional;
 /**
  * Serviço responsável pelo gerenciamento das operações relacionadas às
  * categorias no sistema de catálogo de brinquedos.
+ * <p>Inclui métodos para salvar, buscar, listar e deletar categorias.</p>
  */
 @Service
 public class CategoriaService {

@@ -15,7 +15,8 @@ import org.springframework.util.Assert;
 
 /**
  * Serviço para gerenciamento das operações relacionadas aos brinquedos no
- * sistema. Inclui métodos para salvar, buscar, listar e deletar brinquedos.
+ * sistema.
+ * <p>Inclui métodos para salvar, buscar, listar e deletar brinquedos.</p>
  */
 @Service
 public class BrinquedoService {
