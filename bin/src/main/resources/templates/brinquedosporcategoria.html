@@ -5,6 +5,7 @@
 	<meta charset="UTF-8">
 	<title>Catálogo de Brinquedos</title>
 	<link rel="stylesheet" th:href="@{/style/style.css}">
+	<link rel="icon" type="image/x-icon" th:href="@{/images/favicon.png}">
 </head>
 
 <body>
@@ -22,7 +23,7 @@
 			<ul>
 				<li><a th:href="@{/web/home}">Home</a></li>
 				<li><a th:href="@{/web/catalogodebrinquedos}">Catálogo de Brinquedos</a></li>
-				<li><a th:href="@{/web/administracao}">Administração</a></li>
+				<li><a th:href="@{/web/administracao/brinquedos}">Administração</a></li>
 				<li><a th:href="@{/web/sobre}">Sobre a equipe</a></li>
 			</ul>
 		</div>
@@ -32,13 +33,12 @@
 			<br>
 			<div class="brinquedos-destaque">
 				<div class="brinquedo" th:each="brinquedo : ${brinquedos}">
-					<a th:href="@{/web/catalogodebrinquedos/brinquedo/{id}(id=${brinquedo.id})}">
+					<a th:href="@{/web/catalogodebrinquedos/brinquedos/brinquedo/{id}(id=${brinquedo.id})}">
 						<picture>
-							<source type="image/webp" th:srcset="@{/images/} + ${brinquedo.imagem}">
-							<img th:src="@{/images/} + ${brinquedo.imagem}" th:alt="${'Brinquedo ' + brinquedo.id}">
+							<img th:src="@{/web/administracao/brinquedos/brinquedo/{id}(id=${brinquedo.id})}" th:alt="${'Brinquedo ' + brinquedo.id}">
 						</picture>
 						<h3 th:text="${brinquedo.descricao}">Brinquedo</h3>
-						<p th:text="${'R$ ' + #numbers.formatDecimal(brinquedo.valor, 2, 'POINT', 2, 'COMMA')}">R$
+						<p th:text="${'R$ ' + #numbers.formatDecimal(brinquedo.valor, 1, 'POINT', 2, 'COMMA')}">R$
 							#####,##
 						</p>
 					</a>
