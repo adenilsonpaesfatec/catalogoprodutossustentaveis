@@ -1,10 +1,4 @@
-package br.com.catalogodebrinquedos.controller.web;
-
-import br.com.catalogodebrinquedos.dto.BrinquedoDTO;
-import br.com.catalogodebrinquedos.model.BrinquedoModel;
-import br.com.catalogodebrinquedos.model.CategoriaModel;
-import br.com.catalogodebrinquedos.service.BrinquedoService;
-import br.com.catalogodebrinquedos.service.CategoriaService;
+package br.com.catalogoprodutossustentaveis.controller.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -15,6 +9,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import br.com.catalogoprodutossustentaveis.dto.BrinquedoDTO;
+import br.com.catalogoprodutossustentaveis.model.BrinquedoModel;
+import br.com.catalogoprodutossustentaveis.model.CategoriaModel;
+import br.com.catalogoprodutossustentaveis.service.BrinquedoService;
+import br.com.catalogoprodutossustentaveis.service.CategoriaService;
 
 import java.io.IOException;
 import java.math.BigDecimal;

@@ -1,4 +1,4 @@
-package br.com.catalogodebrinquedos.service;
+package br.com.catalogoprodutossustentaveis.service;
 
 import java.util.List;
 import java.util.Locale;
@@ -8,10 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import br.com.catalogodebrinquedos.model.BrinquedoModel;
-import br.com.catalogodebrinquedos.model.repository.BrinquedoRepository;
 import org.springframework.util.Assert;
+
+import br.com.catalogoprodutossustentaveis.model.BrinquedoModel;
+import br.com.catalogoprodutossustentaveis.model.repository.BrinquedoRepository;
 
 /**
  * Serviço para gerenciamento das operações relacionadas aos brinquedos no

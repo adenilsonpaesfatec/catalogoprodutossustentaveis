@@ -1,11 +1,12 @@
-package br.com.catalogodebrinquedos.service;
+package br.com.catalogoprodutossustentaveis.service;
 
-import br.com.catalogodebrinquedos.model.CategoriaModel;
-import br.com.catalogodebrinquedos.model.repository.CategoriaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+
+import br.com.catalogoprodutossustentaveis.model.CategoriaModel;
+import br.com.catalogoprodutossustentaveis.model.repository.CategoriaRepository;
 
 import java.util.List;
 import java.util.Locale;

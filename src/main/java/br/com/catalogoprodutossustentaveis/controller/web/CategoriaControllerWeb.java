@@ -1,11 +1,5 @@
-package br.com.catalogodebrinquedos.controller.web;
+package br.com.catalogoprodutossustentaveis.controller.web;
 
-import br.com.catalogodebrinquedos.dto.CategoriaDTO;
-import br.com.catalogodebrinquedos.model.BrinquedoModel;
-import br.com.catalogodebrinquedos.model.CategoriaModel;
-import br.com.catalogodebrinquedos.model.repository.BrinquedoRepository;
-import br.com.catalogodebrinquedos.model.repository.CategoriaRepository;
-import br.com.catalogodebrinquedos.service.CategoriaService;
 import jakarta.validation.Valid;
 
 import java.io.IOException;
@@ -28,6 +22,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import br.com.catalogoprodutossustentaveis.dto.CategoriaDTO;
+import br.com.catalogoprodutossustentaveis.model.BrinquedoModel;
+import br.com.catalogoprodutossustentaveis.model.CategoriaModel;
+import br.com.catalogoprodutossustentaveis.model.repository.BrinquedoRepository;
+import br.com.catalogoprodutossustentaveis.model.repository.CategoriaRepository;
+import br.com.catalogoprodutossustentaveis.service.CategoriaService;
 
 /**
  * Controller responsável pelo gerenciamento das categorias no contexto de

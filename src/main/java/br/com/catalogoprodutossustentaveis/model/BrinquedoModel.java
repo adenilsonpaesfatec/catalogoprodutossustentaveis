@@ -1,4 +1,4 @@
-package br.com.catalogodebrinquedos.model;
+package br.com.catalogoprodutossustentaveis.model;
 
 import java.math.BigDecimal;
 import jakarta.persistence.Column;

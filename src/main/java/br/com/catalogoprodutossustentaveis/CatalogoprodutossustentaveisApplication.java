@@ -1,4 +1,4 @@
-package br.com.catalogodebrinquedos;
+package br.com.catalogoprodutossustentaveis;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -11,8 +11,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * <p>Utiliza a anotação {@code @SpringBootApplication} para indicar a 
  * configuração base da aplicação e definir o pacote de escaneamento.</p>
  */
-@SpringBootApplication(scanBasePackages = {"br.com.catalogodebrinquedos"})
-public class CatalogodebrinquedosApplication {
+@SpringBootApplication(scanBasePackages = {"br.com.catalogoprodutossustentaveis"})
+public class CatalogoprodutossustentaveisApplication {
 
 	/**
 	 * Método principal da aplicação que inicializa o Spring Boot.
@@ -20,6 +20,6 @@ public class CatalogodebrinquedosApplication {
 	 * @param args Argumentos da linha de comando para a execução da aplicação.
 	 */
 	public static void main(String[] args) {
-		SpringApplication.run(CatalogodebrinquedosApplication.class, args);
+		SpringApplication.run(CatalogoprodutossustentaveisApplication.class, args);
 	}
 }

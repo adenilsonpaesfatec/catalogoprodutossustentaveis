@@ -1,8 +1,9 @@
-package br.com.catalogodebrinquedos.model.repository;
+package br.com.catalogoprodutossustentaveis.model.repository;
 
-import br.com.catalogodebrinquedos.model.CategoriaModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+
+import br.com.catalogoprodutossustentaveis.model.CategoriaModel;
 
 /**
  * Repositório para a entidade {@link CategoriaModel}.

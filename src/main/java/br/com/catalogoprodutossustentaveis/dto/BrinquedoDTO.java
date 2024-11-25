@@ -1,4 +1,4 @@
-package br.com.catalogodebrinquedos.dto;
+package br.com.catalogoprodutossustentaveis.dto;
 
 import java.math.BigDecimal;
 import org.springframework.web.multipart.MultipartFile;

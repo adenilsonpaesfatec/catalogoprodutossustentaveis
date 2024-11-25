@@ -1,4 +1,4 @@
-package br.com.catalogodebrinquedos.dto;
+package br.com.catalogoprodutossustentaveis.dto;
 
 import org.springframework.web.multipart.MultipartFile;
 import jakarta.validation.constraints.NotNull;

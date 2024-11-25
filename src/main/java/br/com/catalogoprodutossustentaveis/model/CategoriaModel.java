@@ -1,4 +1,4 @@
-package br.com.catalogodebrinquedos.model;
+package br.com.catalogoprodutossustentaveis.model;
 
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnore;
