@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Catálogo de Brinquedos</title>
+    <link rel="stylesheet" th:href="@{/style/style.css}">
+	<link rel="icon" type="image/x-icon" th:href="@{/images/favicon.png}">
+</head>
+
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <img th:src="@{/images/imagemlogo.webp}" alt="Logo">
+            </div>
+            <div class="header-title">
+                <h1>Catálogo de Brinquedos</h1>
+            </div>
+        </header>
+        <div class="menu-lateral">
+            <h2>MENU PRINCIPAL</h2>
+            <ul>
+                <li><a th:href="@{/web/home}">Home</a></li>
+                <li><a th:href="@{/web/catalogodebrinquedos}">Catálogo de Brinquedos</a></li>
+                <li><a th:href="@{/web/administracao/brinquedos}">Administração</a></li>
+                <li><a th:href="@{/web/sobre}">Sobre a equipe</a></li>
+            </ul>
+        </div>
+        <main>
+            <h2>Sobre a Equipe</h2>
+            <hr>
+            <br>
+            <div class="equipe-destaque">
+                <div class="integrante card">
+                    <div class="card-image">
+                        <picture>
+                            <img th:src="@{/images/adenilson.jpg}" alt="Integrante 1">
+                        </picture>
+                    </div>
+                    <div class="card-content">
+                        <h3><a th:text="'Adenilson Aparecido de Moraes Paes'"></a></h3>
+                        <p th:text="'RA: 1840482123053'"></p>
+                    </div>
+                </div>
+                <div class="integrante card">
+                    <div class="card-image">
+                        <picture>
+                            <img th:src="@{/images/paula.jpg}" alt="Integrante 2">
+                        </picture>
+                    </div>
+                    <div class="card-content">
+                        <h3><a th:text="'Maria Paula de Oliveira Fonseca'"></a></h3>
+                        <p th:text="'RA: 1840482123045'"></p>
+                    </div>
+                </div>
+                <div class="integrante card">
+                    <div class="card-image">
+                        <picture>
+                            <img th:src="@{/images/monica.jpg}" alt="Integrante 3">
+                        </picture>
+                    </div>
+                    <div class="card-content">
+                        <h3><p th:text="'Monica Priscila Rodrigues Ribeiro'"></p></h3>
+                        <p th:text="'RA: 1840482023023'"></p>
+                    </div>
+                </div>
+                <div class="integrante card">
+                    <div class="card-image">
+                        <picture>
+                            <img th:src="@{/images/renata.jpg}" alt="Integrante 4">
+                        </picture>
+                    </div>
+                    <div class="card-content">
+                        <h3><a th:text="'Renata Fabiana de Sousa'"></a></h3>
+                        <p th:text="'RA: 1840482123032'"></p>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer class="footer">
+            <p>&copy; 2024 Catálogo de Brinquedos. Todos os direitos reservados.</p>
+        </footer>
+    </div>
+</body>
+
+</html>

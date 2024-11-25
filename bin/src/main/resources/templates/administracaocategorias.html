@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Catálogo de Brinquedos</title>
+	<link rel="stylesheet" th:href="@{/style/style.css}">
+	<link rel="icon" type="image/x-icon" th:href="@{/images/favicon.png}">
+</head>
+
+<body>
+	<div class="container">
+		<header class="header">
+			<div class="logo">
+				<img th:src="@{/images/imagemlogo.webp}" alt="Logo">
+			</div>
+			<div class="header-title">
+				<h1>Catálogo de Brinquedos</h1>
+			</div>
+		</header>
+		<div class="menu-lateral">
+			<h2>MENU PRINCIPAL</h2>
+			<ul>
+				<li><a th:href="@{/web/home}">Home</a></li>
+				<li><a th:href="@{/web/catalogodebrinquedos}">Catálogo de Brinquedos</a></li>
+				<li><a th:href="@{/web/administracao/brinquedos}">Administração</a></li>
+				<li><a th:href="@{/web/sobre}">Sobre a equipe</a></li>
+			</ul>
+		</div>
+		<main>
+			<h2>Administração : : Categorias</h2>
+			<hr>
+			<br>
+			<table class="categorias-tabela">
+				<thead>
+					<tr>
+						<th>Nome</th>
+						<th>Descrição</th>
+						<th>Controles</th>
+					</tr>
+				</thead>
+				<tbody th:each="categoria : ${categorias}">
+					<tr>
+						<td th:text="${categoria.nome}">Nome da categoria</td>
+						<td th:text="${categoria.descricao}">Descrição da Categoria</td>
+						<td>
+							<a th:href="@{/web/administracao/categorias/editar/{id}(id=${categoria.id})}">Editar</a> -
+							<a th:href="@{/web/administracao/categorias/excluir/{id}(id=${categoria.id})}"
+								th:onclick="'return confirm(\'Confirma a exclusão da categoria escolhida?\');'">
+								Excluir
+							</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<div class="botoes-container">
+				<div class="nova-categoria">
+				    <a th:href="@{/web/administracao/categorias/novacategoria}" class="btn-nova-categoria">Nova Categoria</a>
+				</div>
+				<div class="novo-brinquedo">
+			        <a th:href="@{/web/administracao/brinquedos/novobrinquedo}" class="btn-novo-brinquedo">Novo Brinquedo</a>
+			    </div>
+			</div>
+		</main>
+		<footer class="footer">
+			<p>&copy; 2024 Catálogo de Brinquedos. Todos os direitos reservados.</p>
+		</footer>
+	</div>
+</body>
+
+</html>
