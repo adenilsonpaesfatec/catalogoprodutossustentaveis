@@ -70,4 +70,8 @@ public class CategoriaService {
 		Assert.notNull(id, messageSource.getMessage("categoriaService.id.notnull", null, Locale.getDefault()));
 		categoriaRepository.deleteById(id);
 	}
+	
+    public long contarCategorias() {
+        return categoriaRepository.count();
+    }
 }

@@ -87,4 +87,9 @@ public class BrinquedoService {
 		Assert.notNull(id, messageSource.getMessage("brinquedoService.id.notnull", null, Locale.getDefault()));
 		brinquedoRepository.deleteById(id);
 	}
-}
+
+    public long contarBrinquedos() {
+        return brinquedoRepository.count();
+    }
+    
+}	

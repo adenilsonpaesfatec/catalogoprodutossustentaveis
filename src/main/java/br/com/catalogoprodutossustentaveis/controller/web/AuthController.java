@@ -1,67 +1,46 @@
 package br.com.catalogoprodutossustentaveis.controller.web;
 
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-import br.com.catalogoprodutossustentaveis.util.JwtUtil;
+import br.com.catalogoprodutossustentaveis.service.BrinquedoService;
+import br.com.catalogoprodutossustentaveis.service.CategoriaService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 @Controller
-@RequestMapping("/web")
+@RequestMapping("/web/administracao")
 public class AuthController {
+	
+    @Autowired
+    private CategoriaService categoriaService;
 
-    private final PasswordEncoder passwordEncoder;
-
-    public AuthController(PasswordEncoder passwordEncoder) {
-        this.passwordEncoder = passwordEncoder;
-    }
-    
+    @Autowired
+    private BrinquedoService brinquedoService;
+	
     @GetMapping("/login")
-    public String loginPage() {
-    	JwtUtil.passwordGenerate();
-        return "login"; // Nome da página HTML no diretório templates
+    public String login() {
+        return "loginform"; // Retorna o template login.html
     }
-
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
-        String username = "admin"; // Mocked user
-        String password = "$2a$10$Or.88gyxxUuhD5ur.tGTUug5vRcQXpsyvA2RU3Pi.Q/pZFaNpd2cC"; // Mocked password
-
-        if (username.equals(loginRequest.getUsername()) && passwordEncoder.matches(loginRequest.getPassword(), passwordEncoder.encode(password))) {
-            String token = JwtUtil.generateToken(loginRequest.getUsername());
-            return ResponseEntity.ok(new JwtResponse(token));
-        }
-        return ResponseEntity.status(401).body("Credenciais inválidas");
-    }
-}
-
-class LoginRequest {
-    private String username;
-    private String password;
     
-	public String getUsername() {
-		return username;
-	}
-	public void setUsername(String username) {
-		this.username = username;
-	}
-	public String getPassword() {
-		return password;
-	}
-	public void setPassword(String password) {
-		this.password = password;
-	}
-}
+    @GetMapping("/paineladministrativo")
+    public String painelAdministrativo(Model model) {
+        long totalCategorias = categoriaService.contarCategorias();
+        long totalBrinquedos = brinquedoService.contarBrinquedos();
 
-class JwtResponse {
-    private String token;
+        model.addAttribute("totalCategorias", totalCategorias);
+        model.addAttribute("totalBrinquedos", totalBrinquedos);
 
-    public JwtResponse(String token) {
-        this.token = token;
+        return "paineladministrativo";
     }
-
-    public String getToken() {
-        return token;
+    
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request, HttpServletResponse response) {
+        // Remove cookies ou invalida a sessão explicitamente
+        request.getSession().invalidate();
+        return "redirect:/web/home";
     }
 }
