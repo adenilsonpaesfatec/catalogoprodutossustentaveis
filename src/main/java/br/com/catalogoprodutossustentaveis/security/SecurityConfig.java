@@ -10,30 +10,30 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class SecurityConfig {
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-            .csrf().disable() // Desabilita CSRF para simplificação.
-            .authorizeRequests()
-            .requestMatchers("/web/administracao/brinquedos").authenticated() // Protege este endpoint.
-            .anyRequest().permitAll() // Libera os outros endpoints.
-            .and()
-            .formLogin()
-                .loginPage("/web/administracao/login") // Define a página de login personalizada.
-                .defaultSuccessUrl("/web/administracao/paineladministrativo", true) // Redireciona após login bem-sucedido.
-                .permitAll() // Permite acesso ao login para usuários não autenticados.
-            .and()
-            .logout()
-                .logoutUrl("/logout") // Define a URL para logout.
-                .logoutSuccessUrl("/web/home") // Redireciona após logout.
-                .invalidateHttpSession(true) // Invalida sessão.
-                .deleteCookies("JSESSIONID"); // Remove cookies da sessão.
+	@Bean
+	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+	    http
+	        .csrf(csrf -> csrf.disable())
+	        .authorizeHttpRequests(authorize -> authorize
+	            .requestMatchers("/web/administracao/**").authenticated()
+	            .anyRequest().permitAll()
+	        )
+	        .formLogin(formLogin -> formLogin
+	            .loginPage("/web/administracao/login")
+	            .defaultSuccessUrl("/web/administracao/paineladministrativo", true)
+	            .permitAll()
+	        )
+	        .logout(logout -> logout
+	            .logoutUrl("/web/administracao/logout")
+	            .logoutSuccessUrl("/web/home")
+	            .invalidateHttpSession(true)
+	            .deleteCookies("JSESSIONID")
+	        );
+	    return http.build();
+	}
 
-        return http.build();
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+	@Bean
+	PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
 }

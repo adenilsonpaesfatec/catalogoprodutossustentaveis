@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Login - Catálogo de Brinquedos</title>
+    <link rel="stylesheet" th:href="@{/style/style.css}">
+    <link rel="icon" type="image/x-icon" th:href="@{/images/favicon.png}">
+</head>
+
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <img th:src="@{/images/imagemlogo.webp}" alt="Logo">
+            </div>
+            <div class="header-title">
+                <h1>Catálogo de Brinquedos</h1>
+            </div>
+        </header>
+        <div class="menu-lateral">
+            <h2>MENU PRINCIPAL</h2>
+            <ul>
+                <li><a th:href="@{/web/home}">Home</a></li>
+                <li><a th:href="@{/web/catalogodebrinquedos}">Catálogo de Brinquedos</a></li>
+				<li><a th:href="@{/web/administracao/brinquedos}">Administração</a></li>
+                <li><a th:href="@{/web/sobre}">Sobre a equipe</a></li>
+            </ul>
+        </div>
+        <main>
+            <h2>Catálogo de Brinquedos : : Login</h2>
+            <hr>
+            <br>
+            <form method="post" action="/web/administracao/login">
+                <div class="form-group">
+                    <label for="username">USUÁRIO:</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">SENHA:</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <div class="form-group-message">
+                    <p th:if="${param.error}" style="color:red;">Usuário ou senha inválidos</p>
+                    <p th:if="${param.logout}" style="color:green;">Logout realizado com sucesso</p>
+                </div>
+                <div class="form-group botao-salvar">
+                    <button type="submit">ENTRAR</button>
+                </div>
+            </form>
+        </main>
+        <footer class="footer">
+            <p>&copy; 2024 Catálogo de Brinquedos. Todos os direitos reservados.</p>
+        </footer>
+    </div>
+</body>
+
+</html>

@@ -2,31 +2,33 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-	<meta charset="UTF-8">
-	<title>Catálogo de Brinquedos</title>
-	<link rel="stylesheet" th:href="@{/style/style.css}">
-	<link rel="icon" type="image/x-icon" th:href="@{/images/favicon.png}">
+    <meta charset="UTF-8">
+    <title>Catálogo de Produtos - Painel Administrativo</title>
+    <link rel="stylesheet" th:href="@{/style/style.css}">
+    <link rel="icon" type="image/x-icon" th:href="@{/images/favicon.png}">
 </head>
 
 <body>
-	<div class="container">
-		<header class="header">
-			<div class="logo">
-				<img th:src="@{/images/imagemlogo.webp}" alt="Logo">
-			</div>
-			<div class="header-title">
-				<h1>Catálogo de Brinquedos</h1>
-			</div>
-		</header>
-		<div class="menu-lateral">
-			<h2>MENU PRINCIPAL</h2>
-			<ul>
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <img th:src="@{/images/imagemlogo.webp}" alt="Logo">
+            </div>
+            <div class="header-title">
+                <h1>Painel Administrativo - Fornecedores</h1>
+            </div>
+        </header>
+        <div class="menu-lateral">
+            <h2>PAINEL ADMIN</h2>
+            <ul>
 				<li><a th:href="@{/web/home}">Home</a></li>
-				<li><a th:href="@{/web/catalogodebrinquedos}">Catálogo de Brinquedos</a></li>
-				<li><a th:href="@{/web/administracao/brinquedos}">Administração</a></li>
-				<li><a th:href="@{/web/sobre}">Sobre a equipe</a></li>
-			</ul>
-		</div>
+				<li><a th:href="@{/web/administracao/paineladministrativo}">Dashboard</a></li>
+				<li><a th:href="@{/web/administracao/fornecedores}">Gerenciar Fornecedores</a></li>
+				<li><a th:href="@{/web/administracao/categorias}">Gerenciar Categorias</a></li>
+				<li><a th:href="@{/web/administracao/produtos}">Gerenciar Produtos</a></li>
+                <li><a th:href="@{/web/administracao/logout}">Sair</a></li>
+            </ul>
+        </div>
 		<main>
 			<h2>Administração : : Categorias</h2>
 			<hr>
@@ -34,6 +36,7 @@
 			<table class="categorias-tabela">
 				<thead>
 					<tr>
+						<th>Imagem</th>
 						<th>Nome</th>
 						<th>Descrição</th>
 						<th>Controles</th>
@@ -41,13 +44,18 @@
 				</thead>
 				<tbody th:each="categoria : ${categorias}">
 					<tr>
+						<td>
+						    <picture>
+						        <img th:src="@{/web/administracao/categorias/categoria/{id}(id=${categoria.id})}" th:alt="${'Categoria ' + categoria.id}" onclick="abrirModal(event)" style="cursor: pointer; max-width: 100px; max-height: 100px;">
+						    </picture>
+						</td>
 						<td th:text="${categoria.nome}">Nome da categoria</td>
 						<td th:text="${categoria.descricao}">Descrição da Categoria</td>
 						<td>
-							<a th:href="@{/web/administracao/categorias/editar/{id}(id=${categoria.id})}">Editar</a> -
+							<a th:href="@{/web/administracao/categorias/editar/{id}(id=${categoria.id})}"><img src="/images/editar-arquivo.png"></a>
 							<a th:href="@{/web/administracao/categorias/excluir/{id}(id=${categoria.id})}"
 								th:onclick="'return confirm(\'Confirma a exclusão da categoria escolhida?\');'">
-								Excluir
+								<img src="/images/excluir.png">
 							</a>
 						</td>
 					</tr>
@@ -57,15 +65,33 @@
 				<div class="nova-categoria">
 				    <a th:href="@{/web/administracao/categorias/novacategoria}" class="btn-nova-categoria">Nova Categoria</a>
 				</div>
-				<div class="novo-brinquedo">
-			        <a th:href="@{/web/administracao/brinquedos/novobrinquedo}" class="btn-novo-brinquedo">Novo Brinquedo</a>
-			    </div>
 			</div>
 		</main>
 		<footer class="footer">
-			<p>&copy; 2024 Catálogo de Brinquedos. Todos os direitos reservados.</p>
+			<p>&copy; 2024 Catálogo de Produtos. Todos os direitos reservados.</p>
 		</footer>
 	</div>
+	<!-- Modal para exibir a imagem ampliada -->
+	<div id="imagemModal" class="modal">
+	    <span class="close" onclick="fecharModal()">&times;</span>
+	    <img class="modal-content" id="imagemAmpliada">
+	</div>
 </body>
+<script>
+    function abrirModal(event) {
+        const modal = document.getElementById('imagemModal');
+        const modalImg = document.getElementById('imagemAmpliada');
 
+        // Define a imagem clicada como fonte da imagem ampliada
+        modalImg.src = event.target.src;
+
+        // Exibe o modal
+        modal.style.display = 'block';
+    }
+
+    function fecharModal() {
+        const modal = document.getElementById('imagemModal');
+        modal.style.display = 'none';
+    }
+</script>
 </html>

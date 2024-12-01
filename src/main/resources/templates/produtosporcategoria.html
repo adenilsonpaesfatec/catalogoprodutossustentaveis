@@ -23,12 +23,12 @@
 			<ul>
 				<li><a th:href="@{/web/home}">Home</a></li>
 				<li><a th:href="@{/web/catalogodeprodutos}">Catálogo de Produtos</a></li>
-				<li><a th:href="@{/web/administracao/paineladministrativo}">Administração</a></li>
+				<li><a th:href="@{/web/administracao/produtos}">Administração</a></li>
 				<li><a th:href="@{/web/sobre}">Sobre a equipe</a></li>
 			</ul>
 		</div>
 		<main>
-			<h2>Produtos em Destaque</h2>
+			<h2 th:text="'Catálogo de Produtos : : ' + ${categoriaNome}">Catálogo de Produtos</h2>
 			<hr>
 			<br>
 			<div class="produtos-destaque">

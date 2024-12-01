@@ -11,14 +11,11 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 @Configuration
 public class UserDetailsServiceImpl {
 
-    @Bean
-    public UserDetailsService userDetailsService(PasswordEncoder passwordEncoder) {
-        UserDetails admin = User.builder()
-            .username("admin")
-            .password(passwordEncoder.encode("password")) // Senha codificada.
-            .roles("ADMIN") // Define a role do usuário.
-            .build();
-
-        return new InMemoryUserDetailsManager(admin);
-    }
+	@Bean
+	UserDetailsService userDetailsService(PasswordEncoder passwordEncoder) {
+		UserDetails admin = User.builder().username("admin").password(passwordEncoder.encode("password"))
+				.roles("ADMIN")
+				.build();
+		return new InMemoryUserDetailsManager(admin);
+	}
 }

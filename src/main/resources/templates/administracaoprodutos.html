@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Catálogo de Produtos - Painel Administrativo</title>
+    <link rel="stylesheet" th:href="@{/style/style.css}">
+    <link rel="icon" type="image/x-icon" th:href="@{/images/favicon.png}">
+</head>
+
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <img th:src="@{/images/imagemlogo.webp}" alt="Logo">
+            </div>
+            <div class="header-title">
+                <h1>Painel Administrativo - Fornecedores</h1>
+            </div>
+        </header>
+        <div class="menu-lateral">
+            <h2>PAINEL ADMIN</h2>
+            <ul>
+				<li><a th:href="@{/web/home}">Home</a></li>
+				<li><a th:href="@{/web/administracao/paineladministrativo}">Dashboard</a></li>
+				<li><a th:href="@{/web/administracao/fornecedores}">Gerenciar Fornecedores</a></li>
+				<li><a th:href="@{/web/administracao/categorias}">Gerenciar Categorias</a></li>
+				<li><a th:href="@{/web/administracao/produtos}">Gerenciar Produtos</a></li>
+                <li><a th:href="@{/web/administracao/logout}">Sair</a></li>
+            </ul>
+        </div>
+		<main>
+			<h2>Administração : : Produtos</h2>
+			<hr>
+			<br>
+			<table class="produtos-tabela">
+				<thead>
+					<tr>
+						<th>Imagem</th>
+						<th>Descrição</th>
+						<th>Fornecedor</th>
+						<th>Categoria</th>
+						<th>Valor</th>
+						<th>Controles</th>
+					</tr>
+				</thead>
+				<tbody th:each="produto : ${produtos}">
+					<tr>
+						<td>
+						    <picture>
+						        <img th:src="@{/web/administracao/produtos/produto/{id}(id=${produto.id})}" th:alt="${'Produto ' + produto.id}" onclick="abrirModal(event)" style="cursor: pointer; max-width: 100px; max-height: 100px;">
+						    </picture>
+						</td>
+						<td th:text="${produto.descricao}">Descrição do Produto</td>
+						<td th:text="${produto.fornecedor.nome}">Nome do Fornecedor</td>
+						<td th:text="${produto.categoria.nome}">Nome da Categoria</td>
+						<td th:text="${'R$ ' + #numbers.formatDecimal(produto.valor, 1, 'POINT', 2, 'COMMA')}">Valor
+							do Produto</td>
+						<td>
+							<a th:href="@{/web/administracao/produtos/editar/{id}(id=${produto.id})}"><img src="/images/editar-arquivo.png"></a>
+							<a th:href="@{/web/administracao/produtos/excluir/{id}(id=${produto.id})}"
+								th:onclick="'return confirm(\'Confirma a exclusão do produto escolhido?\');'">
+								<img src="/images/excluir.png">
+							</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<div class="botoes-container">
+				<div class="novo-produto">
+					<a th:href="@{/web/administracao/produtos/novoproduto}" class="btn-novo-produto">Novo
+						Produto</a>
+				</div>
+			</div>
+		</main>
+		<footer class="footer">
+			<p>&copy; 2024 Catálogo de Produtos. Todos os direitos reservados.</p>
+		</footer>
+	</div>
+	<!-- Modal para exibir a imagem ampliada -->
+	<div id="imagemModal" class="modal">
+	    <span class="close" onclick="fecharModal()">&times;</span>
+	    <img class="modal-content" id="imagemAmpliada">
+	</div>
+</body>
+<script>
+    function abrirModal(event) {
+        const modal = document.getElementById('imagemModal');
+        const modalImg = document.getElementById('imagemAmpliada');
+
+        // Define a imagem clicada como fonte da imagem ampliada
+        modalImg.src = event.target.src;
+
+        // Exibe o modal
+        modal.style.display = 'block';
+    }
+
+    function fecharModal() {
+        const modal = document.getElementById('imagemModal');
+        modal.style.display = 'none';
+    }
+</script>
+</html>

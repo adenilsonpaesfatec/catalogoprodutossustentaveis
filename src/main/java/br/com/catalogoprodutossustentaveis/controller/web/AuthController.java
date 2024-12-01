@@ -6,41 +6,38 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import br.com.catalogoprodutossustentaveis.service.BrinquedoService;
+import br.com.catalogoprodutossustentaveis.service.ProdutoService;
 import br.com.catalogoprodutossustentaveis.service.CategoriaService;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import br.com.catalogoprodutossustentaveis.service.FornecedorService;
 
 @Controller
 @RequestMapping("/web/administracao")
 public class AuthController {
+
+	@Autowired
+	private FornecedorService fornecedorService;
 	
-    @Autowired
-    private CategoriaService categoriaService;
+	@Autowired
+	private CategoriaService categoriaService;
 
-    @Autowired
-    private BrinquedoService brinquedoService;
-	
-    @GetMapping("/login")
-    public String login() {
-        return "loginform"; // Retorna o template login.html
-    }
-    
-    @GetMapping("/paineladministrativo")
-    public String painelAdministrativo(Model model) {
-        long totalCategorias = categoriaService.contarCategorias();
-        long totalBrinquedos = brinquedoService.contarBrinquedos();
+	@Autowired
+	private ProdutoService produtoService;
 
-        model.addAttribute("totalCategorias", totalCategorias);
-        model.addAttribute("totalBrinquedos", totalBrinquedos);
+	@GetMapping("/login")
+	public String login() {
+		return "loginform";
+	}
 
-        return "paineladministrativo";
-    }
-    
-    @GetMapping("/logout")
-    public String logout(HttpServletRequest request, HttpServletResponse response) {
-        // Remove cookies ou invalida a sessão explicitamente
-        request.getSession().invalidate();
-        return "redirect:/web/home";
-    }
+	@GetMapping("/paineladministrativo")
+	public String painelAdministrativo(Model model) {
+		long totalFornecedores = fornecedorService.contarFornecedores();
+		long totalCategorias = categoriaService.contarCategorias();
+		long totalProdutos = produtoService.contarProdutos();
+
+		model.addAttribute("totalFornecedores", totalFornecedores);
+		model.addAttribute("totalCategorias", totalCategorias);
+		model.addAttribute("totalProdutos", totalProdutos);
+
+		return "paineladministrativo";
+	}
 }
