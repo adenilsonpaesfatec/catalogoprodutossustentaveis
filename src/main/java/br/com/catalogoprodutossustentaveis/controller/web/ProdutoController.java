@@ -1,5 +1,7 @@
 package br.com.catalogoprodutossustentaveis.controller.web;
 
+import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -28,7 +30,7 @@ import br.com.catalogoprodutossustentaveis.service.FornecedorService;
 
 @Controller
 @RequestMapping("/web")
-public class ProdutoControllerWeb {
+public class ProdutoController {
 
     @Autowired
     private ProdutoService produtoService;
@@ -84,7 +86,7 @@ public class ProdutoControllerWeb {
     }
 
     @PostMapping("/administracao/produtos/novoproduto")
-    public String salvarProduto(@ModelAttribute ProdutoDTO produtoDTO, @RequestParam String action, RedirectAttributes redirectAttributes) {
+    public String salvarProduto(@ModelAttribute ProdutoDTO produtoDTO, @RequestParam String action, RedirectAttributes redirectAttributes) throws IOException {
         
     	if ("cancel".equals(action)) {
             redirectAttributes.addFlashAttribute("infoMessage", "Edição cancelada.");
@@ -101,7 +103,7 @@ public class ProdutoControllerWeb {
         return "redirect:/web/administracao/produtos";
     }
 
-    private void atualizarProdutoComDTO(ProdutoModel produto, ProdutoDTO produtoDTO) {
+    private void atualizarProdutoComDTO(ProdutoModel produto, ProdutoDTO produtoDTO) throws IOException {
         produto.setDescricao(produtoDTO.getDescricao());
         produto.setMarca(produtoDTO.getMarca());
         produto.setValor(produtoDTO.getValor());
@@ -116,15 +118,26 @@ public class ProdutoControllerWeb {
                     .orElseThrow(() -> new RuntimeException("Fornecedor não encontrado."));
             produto.setFornecedor(fornecedor);
         }
+        if (produtoDTO.getImagem() != null && !produtoDTO.getImagem().isEmpty()) {
+            produto.setImagem(produtoDTO.getImagem().getBytes());
+        }
     }
 
     @GetMapping("/administracao/produtos")
-    public String listarProdutos(Model model) {
-        model.addAttribute("produtos", produtoService.listarProdutos());
+    public String listarProdutos(@RequestParam(required = false) Long categoriaId,
+                                  @RequestParam(required = false) Long fornecedorId,
+                                  @RequestParam(required = false) BigDecimal precoMin,
+                                  @RequestParam(required = false) BigDecimal precoMax,
+                                  @RequestParam(required = false) String descricao,
+                                  Model model) {
+        List<ProdutoModel> produtos = produtoService.filtrarProdutos(categoriaId, fornecedorId, precoMin, precoMax, descricao);
+        model.addAttribute("produtos", produtos);
+        model.addAttribute("categorias", categoriaService.listarCategorias());
+        model.addAttribute("fornecedores", fornecedorService.listarFornecedores());
         return "administracaoprodutos";
     }
 
-    @GetMapping("/administracao/produtos/produto/{id}")
+    @GetMapping("/produtos/produto/imagem/{id}")
     public ResponseEntity<byte[]> exibirImagemProduto(@PathVariable Long id) {
         Optional<ProdutoModel> produto = produtoService.buscarProdutoPorId(id);
         if (produto.isPresent() && produto.get().getImagem() != null) {

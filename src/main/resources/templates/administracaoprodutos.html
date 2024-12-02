@@ -2,33 +2,65 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <meta charset="UTF-8">
-    <title>Catálogo de Produtos - Painel Administrativo</title>
-    <link rel="stylesheet" th:href="@{/style/style.css}">
-    <link rel="icon" type="image/x-icon" th:href="@{/images/favicon.png}">
+	<meta charset="UTF-8">
+	<title>Catálogo de Produtos - Painel Administrativo</title>
+	<link rel="stylesheet" th:href="@{/style/style.css}">
+	<link rel="icon" type="image/x-icon" th:href="@{/images/favicon.png}">
 </head>
 
 <body>
-    <div class="container">
-        <header class="header">
-            <div class="logo">
-                <img th:src="@{/images/imagemlogo.webp}" alt="Logo">
-            </div>
-            <div class="header-title">
-                <h1>Painel Administrativo - Fornecedores</h1>
-            </div>
-        </header>
-        <div class="menu-lateral">
-            <h2>PAINEL ADMIN</h2>
-            <ul>
+	<div class="container">
+		
+		<header class="header">
+			<div class="logo">
+				<img th:src="@{/images/imagemlogo.webp}" alt="Logo">
+			</div>
+			<div class="header-title">
+				<h1>Painel Administrativo</h1>
+			</div>
+		</header>
+		
+		<div class="menu-lateral">
+			<h2>PAINEL ADMIN</h2>
+			<ul>
 				<li><a th:href="@{/web/home}">Home</a></li>
 				<li><a th:href="@{/web/administracao/paineladministrativo}">Dashboard</a></li>
 				<li><a th:href="@{/web/administracao/fornecedores}">Gerenciar Fornecedores</a></li>
 				<li><a th:href="@{/web/administracao/categorias}">Gerenciar Categorias</a></li>
 				<li><a th:href="@{/web/administracao/produtos}">Gerenciar Produtos</a></li>
-                <li><a th:href="@{/web/administracao/logout}">Sair</a></li>
-            </ul>
-        </div>
+				<li><a th:href="@{/web/administracao/logout}">Sair</a></li>
+			</ul>
+			<br>
+			
+			<form method="get" action="#" th:action="@{/web/administracao/produtos}" class="filtro-form">
+				<label for="descricao">Descrição:</label>
+				<input type="text" id="descricao" name="descricao" placeholder="Buscar por descrição">
+
+				<label for="fornecedor">Fornecedor:</label>
+				<select id="fornecedor" name="fornecedorId">
+					<option value="">Todos</option>
+					<option th:each="fornecedor : ${fornecedores}" th:value="${fornecedor.id}"
+						th:text="${fornecedor.nome}"></option>
+				</select>
+
+				<label for="categoria">Categoria:</label>
+				<select id="categoria" name="categoriaId">
+					<option value="">Todas</option>
+					<option th:each="categoria : ${categorias}" th:value="${categoria.id}" th:text="${categoria.nome}">
+					</option>
+				</select>
+
+				<label for="precoMin">Valor Mínimo:</label>
+				<input type="number" id="precoMin" name="precoMin" step="0.01">
+
+				<label for="precoMax">Valor Máximo:</label>
+				<input type="number" id="precoMax" name="precoMax" step="0.01">
+
+				<button type="submit">Filtrar</button>
+			</form>
+			<br>
+		</div>
+		
 		<main>
 			<h2>Administração : : Produtos</h2>
 			<hr>
@@ -47,9 +79,11 @@
 				<tbody th:each="produto : ${produtos}">
 					<tr>
 						<td>
-						    <picture>
-						        <img th:src="@{/web/administracao/produtos/produto/{id}(id=${produto.id})}" th:alt="${'Produto ' + produto.id}" onclick="abrirModal(event)" style="cursor: pointer; max-width: 100px; max-height: 100px;">
-						    </picture>
+							<picture>
+								<img th:src="@{/web/produtos/produto/imagem/{id}(id=${produto.id})}"
+									th:alt="${'Produto ' + produto.id}" onclick="abrirModal(event)"
+									style="cursor: zoom-in; max-width: 100px; max-height: 100px;">
+							</picture>
 						</td>
 						<td th:text="${produto.descricao}">Descrição do Produto</td>
 						<td th:text="${produto.fornecedor.nome}">Nome do Fornecedor</td>
@@ -57,7 +91,8 @@
 						<td th:text="${'R$ ' + #numbers.formatDecimal(produto.valor, 1, 'POINT', 2, 'COMMA')}">Valor
 							do Produto</td>
 						<td>
-							<a th:href="@{/web/administracao/produtos/editar/{id}(id=${produto.id})}"><img src="/images/editar-arquivo.png"></a>
+							<a th:href="@{/web/administracao/produtos/editar/{id}(id=${produto.id})}"><img
+									src="/images/editar-arquivo.png"></a>
 							<a th:href="@{/web/administracao/produtos/excluir/{id}(id=${produto.id})}"
 								th:onclick="'return confirm(\'Confirma a exclusão do produto escolhido?\');'">
 								<img src="/images/excluir.png">
@@ -73,31 +108,34 @@
 				</div>
 			</div>
 		</main>
+		
 		<footer class="footer">
 			<p>&copy; 2024 Catálogo de Produtos. Todos os direitos reservados.</p>
 		</footer>
 	</div>
+	
 	<!-- Modal para exibir a imagem ampliada -->
 	<div id="imagemModal" class="modal">
-	    <span class="close" onclick="fecharModal()">&times;</span>
-	    <img class="modal-content" id="imagemAmpliada">
+		<span class="close" onclick="fecharModal()">&times;</span>
+		<img class="modal-content" id="imagemAmpliada">
 	</div>
+	
 </body>
+
 <script>
-    function abrirModal(event) {
-        const modal = document.getElementById('imagemModal');
-        const modalImg = document.getElementById('imagemAmpliada');
-
-        // Define a imagem clicada como fonte da imagem ampliada
-        modalImg.src = event.target.src;
-
-        // Exibe o modal
-        modal.style.display = 'block';
-    }
-
-    function fecharModal() {
-        const modal = document.getElementById('imagemModal');
-        modal.style.display = 'none';
-    }
+	//Modal Imagem
+	//Abre Modal
+	function abrirModal(event) {
+		const modal = document.getElementById('imagemModal');
+		const modalImg = document.getElementById('imagemAmpliada');
+		modalImg.src = event.target.src;
+		modal.style.display = 'block';
+	}
+	//Fecha Modal
+	function fecharModal() {
+		const modal = document.getElementById('imagemModal');
+		modal.style.display = 'none';
+	}
 </script>
+
 </html>

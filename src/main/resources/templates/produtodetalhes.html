@@ -37,7 +37,9 @@
 			<div class="produto-detalhe">
 				<div class="produto-imagem">
 					<picture>
-						<img th:src="@{/web/administracao/produtos/produto/{id}(id=${produto.id})}" th:alt="${'Produto ' + produto.id}">
+						<img th:src="@{/web/produtos/produto/imagem/{id}(id=${produto.id})}"
+							th:alt="${'Produto ' + produto.id}" onclick="abrirModal(event)"
+							style="cursor: zoom-in;">
 					</picture>
 				</div>
 				<div class="produto-info">
@@ -56,6 +58,29 @@
 			<p>&copy; 2024 Catálogo de Produtos. Todos os direitos reservados.</p>
 		</footer>
 	</div>
+	
+	<!-- Modal para exibir a imagem ampliada -->
+	<div id="imagemModal" class="modal">
+		<span class="close" onclick="fecharModal()">&times;</span>
+		<img class="modal-content" id="imagemAmpliada">
+	</div>
+	
 </body>
+
+<script>
+	//Modal Imagem
+	//Abre Modal
+	function abrirModal(event) {
+		const modal = document.getElementById('imagemModal');
+		const modalImg = document.getElementById('imagemAmpliada');
+		modalImg.src = event.target.src;
+		modal.style.display = 'block';
+	}
+	//Fecha Modal
+	function fecharModal() {
+		const modal = document.getElementById('imagemModal');
+		modal.style.display = 'none';
+	}
+</script>
 
 </html>

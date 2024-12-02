@@ -56,7 +56,7 @@
 					<input type="file" id="imagem" th:field="*{imagem}" accept="image/*" onchange="previewImagem(event)">
 				</div>
 				<div class="form-group-message" th:if="${!novo}">
-					<img id="preview" th:src="@{/web/administracao/categorias/categoria/{id}(id=${categoria.id})}" th:alt="${'Categoria ' + categoria.id}">
+					<img id="preview" th:src="@{/web/categorias/categoria/imagem/{id}(id=${categoria.id})}" th:alt="${'Categoria ' + categoria.id}">
 					<h5>Selecione uma nova imagem ou deixe em branco para manter a mesma.</h5>
 				</div>
 				<div class="form-group botao">

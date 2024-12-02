@@ -27,7 +27,7 @@ import br.com.catalogoprodutossustentaveis.service.CategoriaService;
 
 @Controller
 @RequestMapping("/web")
-public class CategoriaControllerWeb {
+public class CategoriaController {
 
     @Autowired
     private CategoriaService categoriaService;
@@ -96,7 +96,7 @@ public class CategoriaControllerWeb {
         return "administracaocategorias";
     }
 
-    @GetMapping("/administracao/categorias/categoria/{id}")
+    @GetMapping("/categorias/categoria/imagem/{id}")
     public ResponseEntity<byte[]> exibirImagemCategoria(@PathVariable Long id) {
         Optional<CategoriaModel> categoria = categoriaService.buscarCategoriaPorId(id);
         if (categoria.isPresent() && categoria.get().getImagem() != null) {
@@ -112,13 +112,13 @@ public class CategoriaControllerWeb {
     public String excluirCategoria(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         try {
             if (!produtoRepository.findByCategoriaId(id).isEmpty()) {
-                redirectAttributes.addFlashAttribute("confirmMessage", "Erro: Há produtos associados a esta categoria.");
+                redirectAttributes.addFlashAttribute("confirmMessage", "Erro: Não é possível excluir a categoria, pois ela contém produtos associados.");
                 return "redirect:/web/administracao/categorias";
             }
             categoriaService.deletarCategoria(id);
-            redirectAttributes.addFlashAttribute("successMessage", "Categoria excluída com sucesso!");
+            redirectAttributes.addFlashAttribute("confirmMessage", "Categoria excluída com sucesso!");
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Erro ao excluir a categoria.");
+            redirectAttributes.addFlashAttribute("confirmMessage", "Erro ao excluir a categoria.");
         }
         return "redirect:/web/administracao/categorias";
     }
