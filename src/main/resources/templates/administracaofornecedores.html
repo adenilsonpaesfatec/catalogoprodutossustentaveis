@@ -49,13 +49,14 @@
                         <td th:text="${fornecedor.email}">Email do Fornecedor</td>
                         <td th:text="${fornecedor.telefone}">Telefone do Fornecedor</td>
                         <td th:text="${fornecedor.endereco}">Endereço do Fornecedor</td>
-                        <td>
-                            <a th:href="@{/web/administracao/fornecedores/editar/{id}(id=${fornecedor.id})}"><img src="/images/editar-arquivo.png"></a>
-                            <a th:href="@{/web/administracao/fornecedores/excluir/{id}(id=${fornecedor.id})}"
-                               th:onclick="'return confirm(\'Confirma a exclusão do fornecedor escolhido?\');'">
-                                <img src="/images/excluir.png">
-                            </a>
-                        </td>
+						<td>
+							<a th:href="@{/web/administracao/fornecedores/editar/{id}(id=${fornecedor.id})}"><img
+									src="/images/editar-arquivo.png"></a>
+							<a
+								th:onclick="'confirmarExclusao(event, ' + ${fornecedor.id} + ', ' + (${#lists.size(fornecedor.produtos) > 0}) + ');'">
+								<img src="/images/excluir.png">
+							</a>
+						</td>
                     </tr>
                 </tbody>
             </table>
@@ -70,5 +71,19 @@
         </footer>
     </div>
 </body>
+
+<script>
+	//Modal Corfirma Exclusão
+	function confirmarExclusao(event, fornecedorId, hasProducts) {
+		event.preventDefault();
+		if (hasProducts) {
+			alert("Erro: Não é possível excluir o fornecedor, pois ele contém produtos associados.");
+		} else {
+			if (confirm("Confirma a exclusão do fornecedor escolhido?")) {
+				window.location.href = `/web/administracao/fornecedores/excluir/${fornecedorId}`;
+			}
+		}
+	}
+</script>
 
 </html>

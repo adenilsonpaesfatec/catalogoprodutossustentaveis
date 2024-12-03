@@ -28,8 +28,7 @@
 			</ul>
 		</div>
 		<main>
-			<h2
-				th:text="'Catálogo de Produtos : : ' + ${produto.categoria.nome} + ' : : ' + ${produto.descricao}">
+			<h2 th:text="'Catálogo de Produtos : : ' + ${produto.categoria.nome} + ' : : ' + ${produto.descricao}">
 				Catálogo de Produtos :: nome da categoria :: nome do produto
 			</h2>
 			<hr>
@@ -38,8 +37,7 @@
 				<div class="produto-imagem">
 					<picture>
 						<img th:src="@{/web/produtos/produto/imagem/{id}(id=${produto.id})}"
-							th:alt="${'Produto ' + produto.id}" onclick="abrirModal(event)"
-							style="cursor: zoom-in;">
+							th:alt="${'Produto ' + produto.id}" onclick="abrirModal(event)" style="cursor: zoom-in;">
 					</picture>
 				</div>
 				<div class="produto-info">
@@ -50,21 +48,42 @@
 				</div>
 			</div>
 			<div class="produto-detalhes">
+				<!-- Detalhes do Produto -->
 				<h4>Detalhes sobre o produto:</h4>
 				<p th:text="${produto.detalhes}">Aqui vão os detalhes do produto...</p>
+			</div>
+
+			<div class="categoria-detalhes">
+				<!-- Detalhes da Categoria -->
+				<h4>Detalhes da categoria:</h4>
+				<p>
+					<span th:text="'Nome: ' + ${produto.categoria.nome}">Nome da Categoria</span><br>
+					<span th:text="'Descrição: ' + ${produto.categoria.descricao}">Descrição da Categoria</span>
+				</p>
+			</div>
+
+			<div class="fornecedor-detalhes">
+				<!-- Detalhes do Fornecedor -->
+				<h4>Detalhes do fornecedor:</h4>
+				<p>
+					<span th:text="'Nome: ' + ${produto.fornecedor.nome}">Nome do Fornecedor</span><br>
+					<span th:text="'E-mail: ' + ${produto.fornecedor.email}">E-mail do Fornecedor</span><br>
+					<span th:text="'Telefone: ' + ${produto.fornecedor.telefone}">Telefone do Fornecedor</span><br>
+					<span th:text="'Endereço: ' + ${produto.fornecedor.endereco}">Endereço do Fornecedor</span>
+				</p>
 			</div>
 		</main>
 		<footer class="footer">
 			<p>&copy; 2024 Catálogo de Produtos. Todos os direitos reservados.</p>
 		</footer>
 	</div>
-	
+
 	<!-- Modal para exibir a imagem ampliada -->
 	<div id="imagemModal" class="modal">
 		<span class="close" onclick="fecharModal()">&times;</span>
 		<img class="modal-content" id="imagemAmpliada">
 	</div>
-	
+
 </body>
 
 <script>

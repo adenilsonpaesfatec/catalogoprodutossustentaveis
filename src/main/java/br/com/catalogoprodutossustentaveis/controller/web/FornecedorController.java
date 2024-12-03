@@ -21,10 +21,10 @@ public class FornecedorController {
 
 	@Autowired
 	private FornecedorService fornecedorService;
-	
+
 	@Autowired
 	private ProdutoRepository produtoRepository;
-	
+
 	@GetMapping("/administracao/fornecedores/novofornecedor")
 	public String exibirFormularioNovoFornecedor(Model model) {
 		model.addAttribute("fornecedor", new FornecedorModel());
@@ -59,7 +59,7 @@ public class FornecedorController {
 		FornecedorModel fornecedor = fornecedorDTO.getId() != null && fornecedorDTO.getId() > 0
 				? fornecedorService.buscarFornecedorPorId(fornecedorDTO.getId()).orElseGet(FornecedorModel::new)
 				: new FornecedorModel();
-		
+
 		try {
 			atualizarFornecedorComDTO(fornecedor, fornecedorDTO);
 		} catch (Exception e) {
@@ -83,19 +83,13 @@ public class FornecedorController {
 		model.addAttribute("fornecedores", fornecedorService.listarFornecedores());
 		return "administracaofornecedores";
 	}
-	
-    @GetMapping("/administracao/fornecedores/excluir/{id}")
-    public String excluirFornecedor(@PathVariable Long id, RedirectAttributes redirectAttributes) {
-        try {
-            if (!produtoRepository.findByFornecedorId(id).isEmpty()) {
-                redirectAttributes.addFlashAttribute("confirmMessage", "Erro: Há produtos associados a este fornecedor.");
-                return "redirect:/web/administracao/fornecedores";
-            }
-            fornecedorService.deletarFornecedor(id);
-            redirectAttributes.addFlashAttribute("successMessage", "Fornecedor excluído com sucesso!");
-        } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Erro ao excluir o fornecedor.");
-        }
-        return "redirect:/web/administracao/fornecedores";
-    }
+
+	@GetMapping("/administracao/fornecedores/excluir/{id}")
+	public String excluirFornecedor(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+		if (!produtoRepository.findByFornecedorId(id).isEmpty()) {
+			return "redirect:/web/administracao/fornecedores";
+		}
+		fornecedorService.deletarFornecedor(id);
+		return "redirect:/web/administracao/fornecedores";
+	}
 }

@@ -29,113 +29,109 @@ import br.com.catalogoprodutossustentaveis.service.CategoriaService;
 @RequestMapping("/web")
 public class CategoriaController {
 
-    @Autowired
-    private CategoriaService categoriaService;
+	@Autowired
+	private CategoriaService categoriaService;
 
-    @Autowired
-    private CategoriaRepository categoriaRepository;
+	@Autowired
+	private CategoriaRepository categoriaRepository;
 
-    @Autowired
-    private ProdutoRepository produtoRepository;
+	@Autowired
+	private ProdutoRepository produtoRepository;
 
-    @GetMapping("/administracao/categorias/novacategoria")
-    public String exibirFormularioNovaCategoria(Model model) {
-        model.addAttribute("categoria", new CategoriaModel());
-        model.addAttribute("novo", true);
-        return "categoriaform";
-    }
+	@GetMapping("/administracao/categorias/novacategoria")
+	public String exibirFormularioNovaCategoria(Model model) {
+		model.addAttribute("categoria", new CategoriaModel());
+		model.addAttribute("novo", true);
+		return "categoriaform";
+	}
 
-    @GetMapping("/administracao/categorias/editar/{id}")
-    public String exibirFormularioEditarCategoria(@PathVariable Long id, Model model) {
-        categoriaService.buscarCategoriaPorId(id).ifPresent(categoria -> {
-            CategoriaDTO categoriaDTO = new CategoriaDTO();
-            categoriaDTO.setId(categoria.getId());
-            categoriaDTO.setNome(categoria.getNome());
-            categoriaDTO.setDescricao(categoria.getDescricao());
-            model.addAttribute("categoria", categoriaDTO);
-        });
-        model.addAttribute("novo", false);
-        return "categoriaform";
-    }
+	@GetMapping("/administracao/categorias/editar/{id}")
+	public String exibirFormularioEditarCategoria(@PathVariable Long id, Model model) {
+		categoriaService.buscarCategoriaPorId(id).ifPresent(categoria -> {
+			CategoriaDTO categoriaDTO = new CategoriaDTO();
+			categoriaDTO.setId(categoria.getId());
+			categoriaDTO.setNome(categoria.getNome());
+			categoriaDTO.setDescricao(categoria.getDescricao());
+			model.addAttribute("categoria", categoriaDTO);
+		});
+		model.addAttribute("novo", false);
+		return "categoriaform";
+	}
 
-    @PostMapping("/administracao/categorias/novacategoria")
-    public String salvarCategoria(@ModelAttribute CategoriaDTO categoriaDTO, @RequestParam String action, RedirectAttributes redirectAttributes) {
-        
-    	if ("cancel".equals(action)) {
-            redirectAttributes.addFlashAttribute("infoMessage", "Edição cancelada.");
-            return "redirect:/web/administracao/categorias";
-        }
-    	
-    	CategoriaModel categoria = categoriaDTO.getId() != null && categoriaDTO.getId() > 0
-                ? categoriaService.buscarCategoriaPorId(categoriaDTO.getId()).orElseGet(CategoriaModel::new)
-                : new CategoriaModel();
+	@PostMapping("/administracao/categorias/novacategoria")
+	public String salvarCategoria(@ModelAttribute CategoriaDTO categoriaDTO, @RequestParam String action,
+			RedirectAttributes redirectAttributes) {
 
-        try {
-            atualizarCategoriaComDTO(categoria, categoriaDTO);
-        } catch (IOException e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Erro ao salvar a imagem.");
-            return "redirect:/web/administracao/categorias";
-        }
+		if ("cancel".equals(action)) {
+			redirectAttributes.addFlashAttribute("infoMessage", "Edição cancelada.");
+			return "redirect:/web/administracao/categorias";
+		}
 
-        categoriaService.salvarCategoria(categoria);
-        redirectAttributes.addFlashAttribute("successMessage", "Categoria salva com sucesso!");
-        return "redirect:/web/administracao/categorias";
-    }
+		CategoriaModel categoria = categoriaDTO.getId() != null && categoriaDTO.getId() > 0
+				? categoriaService.buscarCategoriaPorId(categoriaDTO.getId()).orElseGet(CategoriaModel::new)
+				: new CategoriaModel();
 
-    private void atualizarCategoriaComDTO(CategoriaModel categoria, CategoriaDTO categoriaDTO) throws IOException {
-        categoria.setNome(categoriaDTO.getNome());
-        categoria.setDescricao(categoriaDTO.getDescricao());
-        if (categoriaDTO.getImagem() != null && !categoriaDTO.getImagem().isEmpty()) {
-            categoria.setImagem(categoriaDTO.getImagem().getBytes());
-        }
-    }
+		try {
+			atualizarCategoriaComDTO(categoria, categoriaDTO);
+		} catch (IOException e) {
+			redirectAttributes.addFlashAttribute("errorMessage", "Erro ao salvar a imagem.");
+			return "redirect:/web/administracao/categorias";
+		}
 
-    @GetMapping("/administracao/categorias")
-    public String listarCategorias(Model model) {
-        model.addAttribute("categorias", categoriaService.listarCategorias());
-        return "administracaocategorias";
-    }
+		categoriaService.salvarCategoria(categoria);
+		redirectAttributes.addFlashAttribute("successMessage", "Categoria salva com sucesso!");
+		return "redirect:/web/administracao/categorias";
+	}
 
-    @GetMapping("/categorias/categoria/imagem/{id}")
-    public ResponseEntity<byte[]> exibirImagemCategoria(@PathVariable Long id) {
-        Optional<CategoriaModel> categoria = categoriaService.buscarCategoriaPorId(id);
-        if (categoria.isPresent() && categoria.get().getImagem() != null) {
-            byte[] imagem = categoria.get().getImagem();
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(org.springframework.http.MediaType.IMAGE_JPEG);
-            return new ResponseEntity<>(imagem, headers, HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
+	private void atualizarCategoriaComDTO(CategoriaModel categoria, CategoriaDTO categoriaDTO) throws IOException {
+		categoria.setNome(categoriaDTO.getNome());
+		categoria.setDescricao(categoriaDTO.getDescricao());
+		if (categoriaDTO.getImagem() != null && !categoriaDTO.getImagem().isEmpty()) {
+			categoria.setImagem(categoriaDTO.getImagem().getBytes());
+		}
+	}
 
-    @GetMapping("/administracao/categorias/excluir/{id}")
-    public String excluirCategoria(@PathVariable Long id, RedirectAttributes redirectAttributes) {
-        try {
-            if (!produtoRepository.findByCategoriaId(id).isEmpty()) {
-                redirectAttributes.addFlashAttribute("confirmMessage", "Erro: Não é possível excluir a categoria, pois ela contém produtos associados.");
-                return "redirect:/web/administracao/categorias";
-            }
-            categoriaService.deletarCategoria(id);
-            redirectAttributes.addFlashAttribute("confirmMessage", "Categoria excluída com sucesso!");
-        } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("confirmMessage", "Erro ao excluir a categoria.");
-        }
-        return "redirect:/web/administracao/categorias";
-    }
+	@GetMapping("/administracao/categorias")
+	public String listarCategorias(Model model) {
+		model.addAttribute("categorias", categoriaService.listarCategorias());
+		return "administracaocategorias";
+	}
 
-    @GetMapping("/catalogodeprodutos")
-    public String listaCategoriasNoCatalogoDeProdutos(Model model) {
-        List<CategoriaModel> categorias = categoriaService.listarCategorias();
-        model.addAttribute("categorias", categorias);
-        return "catalogodeprodutos";
-    }
+	@GetMapping("/categorias/categoria/imagem/{id}")
+	public ResponseEntity<byte[]> exibirImagemCategoria(@PathVariable Long id) {
+		Optional<CategoriaModel> categoria = categoriaService.buscarCategoriaPorId(id);
+		if (categoria.isPresent() && categoria.get().getImagem() != null) {
+			byte[] imagem = categoria.get().getImagem();
+			HttpHeaders headers = new HttpHeaders();
+			headers.setContentType(org.springframework.http.MediaType.IMAGE_JPEG);
+			return new ResponseEntity<>(imagem, headers, HttpStatus.OK);
+		}
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	}
 
-    @GetMapping("/catalogodeprodutos/categorias/categoria/{id}")
-    public String exibirProdutosPorCategoria(@PathVariable Long id, Model model) {
-        CategoriaModel categoria = categoriaRepository.findById(id).orElseThrow(() -> new RuntimeException("Categoria não encontrada."));
-        List<ProdutoModel> produtos = produtoRepository.findByCategoriaId(id);
-        model.addAttribute("produtos", produtos);
-        model.addAttribute("categoriaNome", categoria.getNome());
-        return "produtosporcategoria";
-    }
+	@GetMapping("/administracao/categorias/excluir/{id}")
+	public String excluirCategoria(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+		if (!produtoRepository.findByCategoriaId(id).isEmpty()) {
+			return "redirect:/web/administracao/categorias";
+		}
+		categoriaService.deletarCategoria(id);
+		return "redirect:/web/administracao/categorias";
+	}
+
+	@GetMapping("/catalogodeprodutos")
+	public String listaCategoriasNoCatalogoDeProdutos(Model model) {
+		List<CategoriaModel> categorias = categoriaService.listarCategorias();
+		model.addAttribute("categorias", categorias);
+		return "catalogodeprodutos";
+	}
+
+	@GetMapping("/catalogodeprodutos/categorias/categoria/{id}")
+	public String exibirProdutosPorCategoria(@PathVariable Long id, Model model) {
+		CategoriaModel categoria = categoriaRepository.findById(id)
+				.orElseThrow(() -> new RuntimeException("Categoria não encontrada."));
+		List<ProdutoModel> produtos = produtoRepository.findByCategoriaId(id);
+		model.addAttribute("produtos", produtos);
+		model.addAttribute("categoriaNome", categoria.getNome());
+		return "produtosporcategoria";
+	}
 }

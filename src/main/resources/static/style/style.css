@@ -130,14 +130,14 @@ main {
 	margin: 5px 0;
 }
 
-.produto-detalhes {
+.produto-detalhes, .categoria-detalhes, .fornecedor-detalhes {
 	margin-top: 20px;
 	padding: 10px;
 	border: 1px dashed #ccc;
 	background-color: #f9f9f9;
 }
 
-.produto-detalhes h4 {
+.produto-detalhes h4, .categoria-detalhes h4, .fornecedor-detalhes h4 {
 	margin: 0 0 10px;
 }
 
