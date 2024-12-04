@@ -10,7 +10,7 @@
 
 <body>
 	<div class="container">
-		
+
 		<header class="header">
 			<div class="logo">
 				<img th:src="@{/images/imagemlogo.webp}" alt="Logo">
@@ -19,7 +19,7 @@
 				<h1>Painel Administrativo</h1>
 			</div>
 		</header>
-		
+
 		<div class="menu-lateral">
 			<h2>PAINEL ADMIN</h2>
 			<ul>
@@ -31,37 +31,43 @@
 				<li><a th:href="@{/web/administracao/logout}">Sair</a></li>
 			</ul>
 			<br>
-			
-			<form method="get" action="#" th:action="@{/web/administracao/produtos}" class="filtro-form">
+
+			<form method="get" th:action="@{/web/administracao/produtos}">
 				<label for="descricao">Descrição:</label>
-				<input type="text" id="descricao" name="descricao" placeholder="Buscar por descrição">
+				<input type="text" id="descricao" name="descricao" placeholder="Buscar por descrição"
+					th:value="${param.descricao}">
 
 				<label for="fornecedor">Fornecedor:</label>
 				<select id="fornecedor" name="fornecedorId">
-					<option value="">Todos</option>
+					<option value="" th:selected="${param.fornecedorId == null || param.fornecedorId == ''}">Todos
+					</option>
 					<option th:each="fornecedor : ${fornecedores}" th:value="${fornecedor.id}"
-						th:text="${fornecedor.nome}"></option>
+						th:text="${fornecedor.nome}" th:selected="${fornecedor.id.toString() == param.fornecedorId}">
+					</option>
 				</select>
 
 				<label for="categoria">Categoria:</label>
 				<select id="categoria" name="categoriaId">
-					<option value="">Todas</option>
-					<option th:each="categoria : ${categorias}" th:value="${categoria.id}" th:text="${categoria.nome}">
+					<option value="" th:selected="${param.categoriaId == null || param.categoriaId == ''}">Todas
+					</option>
+					<option th:each="categoria : ${categorias}" th:value="${categoria.id}" th:text="${categoria.nome}"
+						th:selected="${categoria.id.toString() == param.categoriaId}">
 					</option>
 				</select>
 
 				<label for="precoMin">Valor Mínimo:</label>
-				<input type="number" id="precoMin" name="precoMin" step="0.01">
+				<input type="number" id="precoMin" name="precoMin" step="0.01" th:value="${param.precoMin}">
 
 				<label for="precoMax">Valor Máximo:</label>
-				<input type="number" id="precoMax" name="precoMax" step="0.01">
+				<input type="number" id="precoMax" name="precoMax" step="0.01" th:value="${param.precoMax}">
 
 				<button type="submit">Filtrar</button>
+				<button type="submit" name="action" value="reset">Limpar Filtro</button>
 			</form>
-			
+
 			<br>
 		</div>
-		
+
 		<main>
 			<h2>Administração : : Produtos</h2>
 			<hr>
@@ -102,6 +108,24 @@
 					</tr>
 				</tbody>
 			</table>
+			<div class="pagination">
+				<a th:href="@{/web/administracao/produtos(page=${currentPage - 1}, size=${param.size}, 
+			            categoriaId=${param.categoriaId}, fornecedorId=${param.fornecedorId}, 
+			            precoMin=${param.precoMin}, precoMax=${param.precoMax}, descricao=${param.descricao})}"
+					th:if="${currentPage > 0}">&laquo; Anterior</a>
+
+				<span th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
+					<a th:href="@{/web/administracao/produtos(page=${i}, size=${param.size}, 
+			                categoriaId=${param.categoriaId}, fornecedorId=${param.fornecedorId}, 
+			                precoMin=${param.precoMin}, precoMax=${param.precoMax}, descricao=${param.descricao})}"
+						th:text="${i + 1}" th:classappend="${i == currentPage ? 'active' : ''}"></a>
+				</span>
+
+				<a th:href="@{/web/administracao/produtos(page=${currentPage + 1}, size=${param.size}, 
+			            categoriaId=${param.categoriaId}, fornecedorId=${param.fornecedorId}, 
+			            precoMin=${param.precoMin}, precoMax=${param.precoMax}, descricao=${param.descricao})}"
+					th:if="${currentPage < totalPages - 1}">Próximo &raquo;</a>
+			</div>
 			<div class="botoes-container">
 				<div class="novo-produto">
 					<a th:href="@{/web/administracao/produtos/novoproduto}" class="btn-novo-produto">Novo
@@ -109,18 +133,18 @@
 				</div>
 			</div>
 		</main>
-		
+
 		<footer class="footer">
 			<p>&copy; 2024 Catálogo de Produtos. Todos os direitos reservados.</p>
 		</footer>
 	</div>
-	
+
 	<!-- Modal para exibir a imagem ampliada -->
 	<div id="imagemModal" class="modal">
 		<span class="close" onclick="fecharModal()">&times;</span>
 		<img class="modal-content" id="imagemAmpliada">
 	</div>
-	
+
 </body>
 
 <script>

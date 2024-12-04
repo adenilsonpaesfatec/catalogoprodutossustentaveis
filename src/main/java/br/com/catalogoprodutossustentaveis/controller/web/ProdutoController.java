@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -124,18 +125,29 @@ public class ProdutoController {
     }
 
     @GetMapping("/administracao/produtos")
-    public String listarProdutos(@RequestParam(required = false) Long categoriaId,
-                                  @RequestParam(required = false) Long fornecedorId,
-                                  @RequestParam(required = false) BigDecimal precoMin,
-                                  @RequestParam(required = false) BigDecimal precoMax,
-                                  @RequestParam(required = false) String descricao,
-                                  Model model) {
-        List<ProdutoModel> produtos = produtoService.filtrarProdutos(categoriaId, fornecedorId, precoMin, precoMax, descricao);
-        model.addAttribute("produtos", produtos);
+    public String listarProdutos(@RequestParam(defaultValue = "0") int page,
+                                 @RequestParam(defaultValue = "10") int size,
+                                 @RequestParam(required = false) Long categoriaId,
+                                 @RequestParam(required = false) Long fornecedorId,
+                                 @RequestParam(required = false) BigDecimal precoMin,
+                                 @RequestParam(required = false) BigDecimal precoMax,
+                                 @RequestParam(required = false) String descricao,
+                                 @RequestParam(required = false) String action,
+                                 Model model) {
+        if ("reset".equals(action)) {
+            return "redirect:/web/administracao/produtos";
+        }
+        Page<ProdutoModel> paginaProdutos = produtoService.filtrarProdutosPaginados(
+            page, size, categoriaId, fornecedorId, precoMin, precoMax, descricao
+        );
+        model.addAttribute("produtos", paginaProdutos.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", paginaProdutos.getTotalPages());
         model.addAttribute("categorias", categoriaService.listarCategorias());
         model.addAttribute("fornecedores", fornecedorService.listarFornecedores());
         return "administracaoprodutos";
     }
+
 
     @GetMapping("/produtos/produto/imagem/{id}")
     public ResponseEntity<byte[]> exibirImagemProduto(@PathVariable Long id) {

@@ -466,3 +466,29 @@ textarea {
     text-decoration: none;
     cursor: pointer;
 }
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.pagination a {
+    margin: 0 5px;
+    padding: 10px 15px;
+    text-decoration: none;
+    border: 1px solid #ddd;
+    color: #000;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.pagination a.active {
+    font-weight: bold;
+    background-color: #28a745; /* Cor verde */
+    color: #fff; /* Texto branco */
+    border-color: #28a745; /* Borda da mesma cor do fundo */
+}
+
+.pagination a:hover {
+    background-color: #ddd; /* Fundo cinza claro ao passar o mouse */
+}
