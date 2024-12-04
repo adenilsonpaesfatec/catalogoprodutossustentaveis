@@ -23,9 +23,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.com.catalogoprodutossustentaveis.dto.ProdutoDTO;
 import br.com.catalogoprodutossustentaveis.model.ProdutoModel;
+import br.com.catalogoprodutossustentaveis.model.AvaliacaoModel;
 import br.com.catalogoprodutossustentaveis.model.CategoriaModel;
 import br.com.catalogoprodutossustentaveis.model.FornecedorModel;
 import br.com.catalogoprodutossustentaveis.service.ProdutoService;
+import br.com.catalogoprodutossustentaveis.service.AvaliacaoService;
 import br.com.catalogoprodutossustentaveis.service.CategoriaService;
 import br.com.catalogoprodutossustentaveis.service.FornecedorService;
 
@@ -41,6 +43,9 @@ public class ProdutoController {
 
     @Autowired
     private FornecedorService fornecedorService;
+    
+    @Autowired
+    private AvaliacaoService avaliacaoService;
 
     @GetMapping("/home")
     public String home(Model model) {
@@ -55,7 +60,21 @@ public class ProdutoController {
         ProdutoModel produto = produtoService.buscarProdutoPorId(id)
                 .orElseThrow(() -> new RuntimeException("Produto não encontrado."));
         model.addAttribute("produto", produto);
+        List<AvaliacaoModel> avaliacoes = avaliacaoService.buscarAvaliacoesPorProduto(id);
+        model.addAttribute("avaliacoes", avaliacoes);
         return "produtodetalhes";
+    }
+    
+    @PostMapping("/catalogodeprodutos/produtos/produto/{id}/avaliar")
+    public String salvarAvaliacao(@PathVariable Long id, @RequestParam int estrelas, 
+                                   @RequestParam String comentario, @RequestParam String email, 
+                                   RedirectAttributes redirectAttributes) {
+        ProdutoModel produto = produtoService.buscarProdutoPorId(id)
+                .orElseThrow(() -> new RuntimeException("Produto não encontrado."));
+        AvaliacaoModel avaliacao = new AvaliacaoModel(null, estrelas, comentario, email, produto);
+        avaliacaoService.salvarAvaliacao(avaliacao);
+        redirectAttributes.addFlashAttribute("successMessage", "Avaliação salva com sucesso!");
+        return "redirect:/web/catalogodeprodutos/produtos/produto/" + id;
     }
 
     @GetMapping("/administracao/produtos/novoproduto")
