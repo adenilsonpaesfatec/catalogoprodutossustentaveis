@@ -493,79 +493,34 @@ textarea {
     background-color: #ddd; /* Fundo cinza claro ao passar o mouse */
 }
 
-.avaliacoes-secao {
-    margin-top: 20px;
-    border-top: 1px solid #ccc;
-    padding-top: 15px;
+/* Estrelas fixas nas avaliações */
+.avaliacao-nota i {
+    color: gold;
+    font-size: 1.2em;
+    margin-right: 2px;
 }
 
-.avaliacoes-titulo {
-    font-size: 1.5em;
+/* Estilo do formulário de avaliação */
+.stars {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-start;
     margin-bottom: 10px;
-    color: #333;
 }
 
-.avaliacoes-lista {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+.stars input[type="radio"] {
+    display: none;
 }
 
-.avaliacao-item {
-    margin-bottom: 15px;
-    padding: 10px;
-    border-bottom: 1px solid #e0e0e0;
-}
-
-.avaliacao-nota {
-    font-weight: bold;
-    color: #444;
-}
-
-.avaliacao-comentario {
-    margin: 5px 0;
-    font-size: 1em;
-    color: #555;
-}
-
-.avaliacao-usuario {
-    font-style: italic;
-    color: #777;
-}
-
-.formulario-avaliacao {
-    margin-top: 20px;
-    padding: 15px;
-    background: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-}
-
-.avaliacao-form label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-}
-
-.avaliacao-form select,
-.avaliacao-form textarea,
-.avaliacao-form input {
-    width: 100%;
-    margin-bottom: 10px;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 3px;
-}
-
-.avaliacao-form button {
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 3px;
+.stars label {
+    font-size: 2em;
+    color: lightgray;
     cursor: pointer;
+    margin-right: 5px;
 }
 
-.avaliacao-form button:hover {
-    background-color: #0056b3;
+.stars label:hover,
+.stars label:hover ~ label,
+.stars input[type="radio"]:checked ~ label {
+    color: gold;
 }

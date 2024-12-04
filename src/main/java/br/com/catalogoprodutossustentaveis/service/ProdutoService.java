@@ -2,6 +2,7 @@ package br.com.catalogoprodutossustentaveis.service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +52,10 @@ public class ProdutoService {
 		Pageable pageable = PageRequest.of(page, size);
 		return produtoRepository.filtrarProdutosPaginados(categoriaId, fornecedorId, precoMin, precoMax, descricao,
 				pageable);
+	}
+	
+	public List<Map<String, Object>> buscarProdutosMaisBemAvaliados() {
+	    return produtoRepository.buscarProdutosMaisBemAvaliados();
 	}
 
 }

@@ -2,6 +2,7 @@ package br.com.catalogoprodutossustentaveis.repository;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -29,4 +30,11 @@ public interface ProdutoRepository extends JpaRepository<ProdutoModel, Long> {
 		                                            @Param("precoMax") BigDecimal precoMax,
 		                                            @Param("descricao") String descricao,
 		                                            Pageable pageable);
+	
+	@Query("SELECT p.descricao AS descricao, AVG(a.estrelas) AS mediaEstrelas " +
+		       "FROM ProdutoModel p JOIN AvaliacaoModel a ON p.id = a.produto.id " +
+		       "GROUP BY p.id, p.descricao " +
+		       "ORDER BY mediaEstrelas DESC")
+		List<Map<String, Object>> buscarProdutosMaisBemAvaliados();
+
 }

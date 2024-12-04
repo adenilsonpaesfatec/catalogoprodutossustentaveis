@@ -6,6 +6,7 @@
 	<title>Catálogo de Produtos</title>
 	<link rel="stylesheet" th:href="@{/style/style.css}">
 	<link rel="icon" type="image/x-icon" th:href="@{/images/favicon.png}">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 
 <body>
@@ -74,43 +75,51 @@
 			</div>
 
 			<div class="avaliacoes-secao">
-				<h3 class="avaliacoes-titulo">Avaliações</h3>
-				<ul class="avaliacoes-lista">
-					<li th:each="avaliacao : ${avaliacoes}" class="avaliacao-item">
-						<div class="avaliacao-nota">
-							<strong th:text="'Nota: ' + ${avaliacao.estrelas} + ' estrelas'"></strong>
-						</div>
-						<div class="avaliacao-comentario">
-							<p th:text="${avaliacao.comentario}"></p>
-						</div>
-						<div class="avaliacao-usuario">
-							<em th:text="'Por: ' + ${avaliacao.email}"></em>
-						</div>
-					</li>
-				</ul>
+			    <h3 class="avaliacoes-titulo">Avaliações</h3>
+			    <ul class="avaliacoes-lista">
+			        <li th:each="avaliacao : ${avaliacoes}" class="avaliacao-item">
+			            <div class="avaliacao-nota">
+			                <strong>
+			                    <span th:each="star : ${#numbers.sequence(1, avaliacao.estrelas)}">
+			                        <i class="fas fa-star" style="color: gold;"></i>
+			                    </span>
+			                </strong>
+			            </div>
+			            <div class="avaliacao-comentario">
+			                <p th:text="${avaliacao.comentario}"></p>
+			            </div>
+			            <div class="avaliacao-usuario">
+			                <em th:text="'Por: ' + ${avaliacao.email}"></em>
+			            </div>
+			        </li>
+			    </ul>
 			</div>
 
 			<div class="formulario-avaliacao">
-				<h4>Deixe sua avaliação</h4>
-				<form th:action="@{'/web/catalogodeprodutos/produtos/produto/' + ${produto.id} + '/avaliar'}"
-					method="post" class="avaliacao-form">
-					<label for="estrelas">Nota:</label>
-					<select name="estrelas" id="estrelas" required>
-						<option value="1">1 estrela</option>
-						<option value="2">2 estrelas</option>
-						<option value="3">3 estrelas</option>
-						<option value="4">4 estrelas</option>
-						<option value="5">5 estrelas</option>
-					</select>
-					<br>
-					<label for="comentario">Comentário:</label>
-					<textarea id="comentario" name="comentario" required></textarea>
-					<br>
-					<label for="email">Seu e-mail:</label>
-					<input type="email" id="email" name="email" required>
-					<br>
-					<button type="submit">Enviar Avaliação</button>
-				</form>
+			    <h4>Deixe sua avaliação</h4>
+			    <form th:action="@{'/web/catalogodeprodutos/produtos/produto/' + ${produto.id} + '/avaliar'}" method="post" class="avaliacao-form">
+			        <label for="estrelas">Nota:</label>
+			        <div class="stars">
+			            <input type="radio" id="star5" name="estrelas" value="5" required>
+			            <label for="star5" title="5 estrelas"><i class="fas fa-star"></i></label>
+			            <input type="radio" id="star4" name="estrelas" value="4">
+			            <label for="star4" title="4 estrelas"><i class="fas fa-star"></i></label>
+			            <input type="radio" id="star3" name="estrelas" value="3">
+			            <label for="star3" title="3 estrelas"><i class="fas fa-star"></i></label>
+			            <input type="radio" id="star2" name="estrelas" value="2">
+			            <label for="star2" title="2 estrelas"><i class="fas fa-star"></i></label>
+			            <input type="radio" id="star1" name="estrelas" value="1">
+			            <label for="star1" title="1 estrela"><i class="fas fa-star"></i></label>
+			        </div>
+			        <br>
+			        <label for="comentario">Comentário:</label>
+			        <textarea id="comentario" name="comentario" required></textarea>
+			        <br>
+			        <label for="email">Seu e-mail:</label>
+			        <input type="email" id="email" name="email" required>
+			        <br>
+			        <button type="submit">Enviar Avaliação</button>
+			    </form>
 			</div>
 
 		</main>

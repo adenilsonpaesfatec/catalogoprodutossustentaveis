@@ -6,6 +6,7 @@
     <title>Catálogo de Produtos - Painel Administrativo</title>
     <link rel="stylesheet" th:href="@{/style/style.css}">
     <link rel="icon" type="image/x-icon" th:href="@{/images/favicon.png}">
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
@@ -47,11 +48,47 @@
 					<p th:text="${totalProdutos}">0</p>
 				</div>
 			</div>
+			<div class="grafico-container">
+			    <h3>Produtos Mais Bem Avaliados</h3>
+			    <canvas id="graficoProdutosBemAvaliados"></canvas>
+			</div>
 		</main>
 		<footer class="footer">
 			<p>&copy; 2024 Catálogo de Produtos. Todos os direitos reservados.</p>
 		</footer>
 	</div>
 </body>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        fetch('/web/administracao/produtos/maisbemavaliados')
+            .then(response => response.json())
+            .then(data => {
+                const descricoes = data.map(item => item.descricao);
+                const medias = data.map(item => item.mediaEstrelas);
+
+                const ctx = document.getElementById('graficoProdutosBemAvaliados').getContext('2d');
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: descricoes,
+                        datasets: [{
+                            label: 'Média de Avaliação',
+                            data: medias,
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            })
+            .catch(error => console.error('Erro ao carregar os dados:', error));
+    });
+</script>
 
 </html>

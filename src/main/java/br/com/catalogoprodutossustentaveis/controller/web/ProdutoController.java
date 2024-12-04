@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -166,7 +167,12 @@ public class ProdutoController {
         model.addAttribute("fornecedores", fornecedorService.listarFornecedores());
         return "administracaoprodutos";
     }
-
+    
+    @GetMapping("/administracao/produtos/maisbemavaliados")
+    public ResponseEntity<List<Map<String, Object>>> listarProdutosMaisBemAvaliados() {
+        List<Map<String, Object>> produtosBemAvaliados = produtoService.buscarProdutosMaisBemAvaliados();
+        return ResponseEntity.ok(produtosBemAvaliados);
+    }
 
     @GetMapping("/produtos/produto/imagem/{id}")
     public ResponseEntity<byte[]> exibirImagemProduto(@PathVariable Long id) {
