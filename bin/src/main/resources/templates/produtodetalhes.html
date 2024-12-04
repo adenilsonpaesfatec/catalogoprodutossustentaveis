@@ -29,16 +29,8 @@
 			</ul>
 		</div>
 		<main>
-			<h2>
-			    <a href="/web/catalogodeprodutos">Catálogo de Produtos</a>
-				: :
-			    <a th:href="@{'/web/catalogodeprodutos/categorias/categoria/' + ${produto.categoria.id}}">
-			        <span th:text="${produto.categoria.nome}">Nome da Categoria</span>
-			    </a>
-				: :
-				<a th:href="@{'/web/catalogodeprodutos/produtos/produto/' + ${produto.id}}">
-			        <span th:text="${produto.descricao}">Descrição do Produto</span>
-			    </a>
+			<h2 th:text="'Catálogo de Produtos : : ' + ${produto.categoria.nome} + ' : : ' + ${produto.descricao}">
+				Catálogo de Produtos :: nome da categoria :: nome do produto
 			</h2>
 			<hr>
 			<br>
@@ -57,11 +49,13 @@
 				</div>
 			</div>
 			<div class="produto-detalhes">
+				<!-- Detalhes do Produto -->
 				<h4>Detalhes sobre o produto:</h4>
 				<p th:text="${produto.detalhes}">Aqui vão os detalhes do produto...</p>
 			</div>
 
 			<div class="categoria-detalhes">
+				<!-- Detalhes da Categoria -->
 				<h4>Detalhes da categoria:</h4>
 				<p>
 					<span th:text="'Nome: ' + ${produto.categoria.nome}">Nome da Categoria</span><br>
@@ -70,6 +64,7 @@
 			</div>
 
 			<div class="fornecedor-detalhes">
+				<!-- Detalhes do Fornecedor -->
 				<h4>Detalhes do fornecedor:</h4>
 				<p>
 					<span th:text="'Nome: ' + ${produto.fornecedor.nome}">Nome do Fornecedor</span><br>
@@ -85,7 +80,7 @@
 			        <li th:each="avaliacao : ${avaliacoes}" class="avaliacao-item">
 			            <div class="avaliacao-nota">
 			                <strong>
-								<span th:each="star : ${#numbers.sequence(1, avaliacao.estrelas)}">
+			                    <span th:each="star : ${#numbers.sequence(1, avaliacao.estrelas)}">
 			                        <i class="fas fa-star" style="color: gold;"></i>
 			                    </span>
 			                </strong>
@@ -96,13 +91,12 @@
 			            <div class="avaliacao-usuario">
 			                <em th:text="'Por: ' + ${avaliacao.email}"></em>
 			            </div>
-						<br>
 			        </li>
 			    </ul>
 			</div>
 
 			<div class="formulario-avaliacao">
-			    <h3>Deixe sua avaliação</h3>
+			    <h4>Deixe sua avaliação</h4>
 			    <form th:action="@{'/web/catalogodeprodutos/produtos/produto/' + ${produto.id} + '/avaliar'}" method="post" class="avaliacao-form">
 			        <label for="estrelas">Nota:</label>
 			        <div class="stars">

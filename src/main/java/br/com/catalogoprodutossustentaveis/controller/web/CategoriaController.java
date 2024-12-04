@@ -131,7 +131,7 @@ public class CategoriaController {
 				.orElseThrow(() -> new RuntimeException("Categoria não encontrada."));
 		List<ProdutoModel> produtos = produtoRepository.findByCategoriaId(id);
 		model.addAttribute("produtos", produtos);
-		model.addAttribute("categoriaNome", categoria.getNome());
+		model.addAttribute("categoria", categoria);
 		return "produtosporcategoria";
 	}
 }

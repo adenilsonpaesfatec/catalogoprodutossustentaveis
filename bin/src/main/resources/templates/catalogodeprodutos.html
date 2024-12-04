@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="UTF-8">
-	<title>Catálogo de Brinquedos</title>
+	<title>Catálogo de Produtos</title>
 	<link rel="stylesheet" th:href="@{/style/style.css}">
 	<link rel="icon" type="image/x-icon" th:href="@{/images/favicon.png}">
 </head>
@@ -15,27 +15,27 @@
 				<img th:src="@{/images/imagemlogo.webp}" alt="Logo">
 			</div>
 			<div class="header-title">
-				<h1>Catálogo de Brinquedos</h1>
+				<h1>Catálogo de Produtos</h1>
 			</div>
 		</header>
 		<div class="menu-lateral">
 			<h2>MENU PRINCIPAL</h2>
 			<ul>
 				<li><a th:href="@{/web/home}">Home</a></li>
-				<li><a th:href="@{/web/catalogodebrinquedos}">Catálogo de Brinquedos</a></li>
-				<li><a th:href="@{/web/administracao/brinquedos}">Administração</a></li>
+				<li><a th:href="@{/web/catalogodeprodutos}">Catálogo de Produtos</a></li>
+				<li><a th:href="@{/web/administracao/paineladministrativo}">Administração</a></li>
 				<li><a th:href="@{/web/sobre}">Sobre a equipe</a></li>
 			</ul>
 		</div>
 		<main>
-			<h2>Catálogo de Brinquedos : : Categorias</h2>
+			<h2>Catálogo de Produtos : : Categorias</h2>
 			<hr>
 			<br>
 			<div class="categorias-destaque">
 				<div class="categoria" th:each="categoria : ${categorias}">
-					<a th:href="@{/web/catalogodebrinquedos/categorias/categoria/{id}(id=${categoria.id})}">
+					<a th:href="@{/web/catalogodeprodutos/categorias/categoria/{id}(id=${categoria.id})}">
 						<picture>
-							<img th:src="@{/web/administracao/categorias/categoria/{id}(id=${categoria.id})}" th:alt="${'Categoria ' + categoria.id}">
+							<img th:src="@{/web/categorias/categoria/imagem/{id}(id=${categoria.id})}" th:alt="${'Categoria ' + categoria.id}">
 						</picture>
 						<h3 th:text="${categoria.nome}">Categoria</h3>
 					</a>
@@ -43,7 +43,7 @@
 			</div>
 		</main>
 		<footer class="footer">
-			<p>© 2024 Catálogo de Brinquedos. Todos os direitos reservados.</p>
+			<p>© 2024 Catálogo de Produtos. Todos os direitos reservados.</p>
 		</footer>
 	</div>
 </body>

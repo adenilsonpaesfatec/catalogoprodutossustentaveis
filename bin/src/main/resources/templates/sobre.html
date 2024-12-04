@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Catálogo de Brinquedos</title>
+    <title>Catálogo de Produtos</title>
     <link rel="stylesheet" th:href="@{/style/style.css}">
 	<link rel="icon" type="image/x-icon" th:href="@{/images/favicon.png}">
 </head>
@@ -15,15 +15,15 @@
                 <img th:src="@{/images/imagemlogo.webp}" alt="Logo">
             </div>
             <div class="header-title">
-                <h1>Catálogo de Brinquedos</h1>
+                <h1>Catálogo de Produtos</h1>
             </div>
         </header>
         <div class="menu-lateral">
             <h2>MENU PRINCIPAL</h2>
             <ul>
                 <li><a th:href="@{/web/home}">Home</a></li>
-                <li><a th:href="@{/web/catalogodebrinquedos}">Catálogo de Brinquedos</a></li>
-                <li><a th:href="@{/web/administracao/brinquedos}">Administração</a></li>
+                <li><a th:href="@{/web/catalogodeprodutos}">Catálogo de Produtos</a></li>
+                <li><a th:href="@{/web/administracao/paineladministrativo}">Administração</a></li>
                 <li><a th:href="@{/web/sobre}">Sobre a equipe</a></li>
             </ul>
         </div>
@@ -37,7 +37,7 @@
                         <picture>
                             <img th:src="@{/images/adenilson.jpg}" alt="Integrante 1">
                         </picture>
-                    </div>
+                    </div><br/>
                     <div class="card-content">
                         <h3><a th:text="'Adenilson Aparecido de Moraes Paes'"></a></h3>
                         <p th:text="'RA: 1840482123053'"></p>
@@ -48,7 +48,7 @@
                         <picture>
                             <img th:src="@{/images/paula.jpg}" alt="Integrante 2">
                         </picture>
-                    </div>
+                    </div><br/>
                     <div class="card-content">
                         <h3><a th:text="'Maria Paula de Oliveira Fonseca'"></a></h3>
                         <p th:text="'RA: 1840482123045'"></p>
@@ -59,9 +59,9 @@
                         <picture>
                             <img th:src="@{/images/monica.jpg}" alt="Integrante 3">
                         </picture>
-                    </div>
+                    </div><br/>
                     <div class="card-content">
-                        <h3><p th:text="'Monica Priscila Rodrigues Ribeiro'"></p></h3>
+                        <h3><a th:text="'Monica Priscila Rodrigues Ribeiro'"></a></h3>
                         <p th:text="'RA: 1840482023023'"></p>
                     </div>
                 </div>
@@ -70,7 +70,7 @@
                         <picture>
                             <img th:src="@{/images/renata.jpg}" alt="Integrante 4">
                         </picture>
-                    </div>
+                    </div><br/>
                     <div class="card-content">
                         <h3><a th:text="'Renata Fabiana de Sousa'"></a></h3>
                         <p th:text="'RA: 1840482123032'"></p>
@@ -79,7 +79,7 @@
             </div>
         </main>
         <footer class="footer">
-            <p>&copy; 2024 Catálogo de Brinquedos. Todos os direitos reservados.</p>
+            <p>&copy; 2024 Catálogo de Produtos. Todos os direitos reservados.</p>
         </footer>
     </div>
 </body>

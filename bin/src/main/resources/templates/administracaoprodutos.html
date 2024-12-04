@@ -69,11 +69,7 @@
 		</div>
 
 		<main>
-			<h2>
-				<a href="/web/administracao/paineladministrativo">Administração</a>
-				: :
-				<a href="/web/administracao/produtos">Produtos</a>
-			</h2>
+			<h2>Administração : : Produtos</h2>
 			<hr>
 			<br>
 			<table class="produtos-tabela">
@@ -96,11 +92,7 @@
 									style="cursor: zoom-in; max-width: 100px; max-height: 100px;">
 							</picture>
 						</td>
-						<td>
-							<a th:href="@{/web/administracao/produtos/produto/{id}(id=${produto.id})}">
-								<span th:text="${produto.descricao}">Descrição do Produto</span>
-							</a>
-						</td>
+						<td th:text="${produto.descricao}">Descrição do Produto</td>
 						<td th:text="${produto.fornecedor.nome}">Nome do Fornecedor</td>
 						<td th:text="${produto.categoria.nome}">Nome da Categoria</td>
 						<td th:text="${'R$ ' + #numbers.formatDecimal(produto.valor, 1, 'POINT', 2, 'COMMA')}">Valor

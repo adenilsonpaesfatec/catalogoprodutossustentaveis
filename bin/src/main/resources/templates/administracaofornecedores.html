@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Catálogo de Produtos - Painel Administrativo</title>
+    <link rel="stylesheet" th:href="@{/style/style.css}">
+    <link rel="icon" type="image/x-icon" th:href="@{/images/favicon.png}">
+</head>
+
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <img th:src="@{/images/imagemlogo.webp}" alt="Logo">
+            </div>
+            <div class="header-title">
+                <h1>Painel Administrativo</h1>
+            </div>
+        </header>
+        <div class="menu-lateral">
+            <h2>PAINEL ADMIN</h2>
+            <ul>
+				<li><a th:href="@{/web/home}">Home</a></li>
+				<li><a th:href="@{/web/administracao/paineladministrativo}">Dashboard</a></li>
+				<li><a th:href="@{/web/administracao/fornecedores}">Gerenciar Fornecedores</a></li>
+				<li><a th:href="@{/web/administracao/categorias}">Gerenciar Categorias</a></li>
+				<li><a th:href="@{/web/administracao/produtos}">Gerenciar Produtos</a></li>
+                <li><a th:href="@{/web/administracao/logout}">Sair</a></li>
+            </ul>
+        </div>
+        <main>
+            <h2>Administração : : Fornecedores</h2>
+            <hr>
+            <br>
+            <table class="categorias-tabela">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Email</th>
+                        <th>Telefone</th>
+                        <th>Endereço</th>
+                        <th>Controles</th>
+                    </tr>
+                </thead>
+                <tbody th:each="fornecedor : ${fornecedores}">
+                    <tr>
+                        <td th:text="${fornecedor.nome}">Nome do Fornecedor</td>
+                        <td th:text="${fornecedor.email}">Email do Fornecedor</td>
+                        <td th:text="${fornecedor.telefone}">Telefone do Fornecedor</td>
+                        <td th:text="${fornecedor.endereco}">Endereço do Fornecedor</td>
+						<td>
+							<a th:href="@{/web/administracao/fornecedores/editar/{id}(id=${fornecedor.id})}"><img
+									src="/images/editar-arquivo.png"></a>
+							<a
+								th:onclick="'confirmarExclusao(event, ' + ${fornecedor.id} + ', ' + (${#lists.size(fornecedor.produtos) > 0}) + ');'">
+								<img src="/images/excluir.png">
+							</a>
+						</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="botoes-container">
+                <div class="novo-fornecedor">
+                    <a th:href="@{/web/administracao/fornecedores/novofornecedor}" class="btn-novo-produto">Novo Fornecedor</a>
+                </div>
+            </div>
+        </main>
+        <footer class="footer">
+            <p>&copy; 2024 Catálogo de Produtos. Todos os direitos reservados.</p>
+        </footer>
+    </div>
+</body>
+
+<script>
+	//Modal Corfirma Exclusão
+	function confirmarExclusao(event, fornecedorId, hasProducts) {
+		event.preventDefault();
+		if (hasProducts) {
+			alert("Erro: Não é possível excluir o fornecedor, pois ele contém produtos associados.");
+		} else {
+			if (confirm("Confirma a exclusão do fornecedor escolhido?")) {
+				window.location.href = `/web/administracao/fornecedores/excluir/${fornecedorId}`;
+			}
+		}
+	}
+</script>
+
+</html>

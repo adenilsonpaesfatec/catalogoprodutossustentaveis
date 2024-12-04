@@ -28,14 +28,21 @@
 			</ul>
 		</div>
 		<main>
-			<h2 th:text="'Catálogo de Produtos : : ' + ${categoriaNome}">Catálogo de Produtos</h2>
+			<h2>
+				<a href="/web/catalogodeprodutos">Catálogo de Produtos</a>
+				: :
+				<a th:href="@{'/web/catalogodeprodutos/categorias/categoria/' + ${categoria.id}}">
+					<span th:text="${categoria.nome}">Nome da Categoria</span>
+				</a>
+			</h2>
 			<hr>
 			<br>
 			<div class="produtos-destaque">
 				<div class="produto" th:each="produto : ${produtos}">
 					<a th:href="@{/web/catalogodeprodutos/produtos/produto/{id}(id=${produto.id})}">
 						<picture>
-							<img th:src="@{/web/produtos/produto/imagem/{id}(id=${produto.id})}" th:alt="${'Produto ' + produto.id}">
+							<img th:src="@{/web/produtos/produto/imagem/{id}(id=${produto.id})}"
+								th:alt="${'Produto ' + produto.id}">
 						</picture>
 						<h3 th:text="${produto.descricao}">Produto</h3>
 						<p th:text="${'R$ ' + #numbers.formatDecimal(produto.valor, 1, 'POINT', 2, 'COMMA')}">R$

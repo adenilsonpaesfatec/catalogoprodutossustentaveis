@@ -36,168 +36,173 @@ import br.com.catalogoprodutossustentaveis.service.FornecedorService;
 @RequestMapping("/web")
 public class ProdutoController {
 
-    @Autowired
-    private ProdutoService produtoService;
+	@Autowired
+	private ProdutoService produtoService;
 
-    @Autowired
-    private CategoriaService categoriaService;
+	@Autowired
+	private CategoriaService categoriaService;
 
-    @Autowired
-    private FornecedorService fornecedorService;
-    
-    @Autowired
-    private AvaliacaoService avaliacaoService;
+	@Autowired
+	private FornecedorService fornecedorService;
 
-    @GetMapping("/home")
-    public String home(Model model) {
-        List<ProdutoModel> produtos = produtoService.listarProdutos();
-        Collections.shuffle(produtos);
-        model.addAttribute("produtos", produtos.stream().limit(6).toList());
-        return "home";
-    }
+	@Autowired
+	private AvaliacaoService avaliacaoService;
 
-    @GetMapping("/catalogodeprodutos/produtos/produto/{id}")
-    public String exibirDetalhesDoProduto(@PathVariable Long id, Model model) {
-        ProdutoModel produto = produtoService.buscarProdutoPorId(id)
-                .orElseThrow(() -> new RuntimeException("Produto não encontrado."));
-        model.addAttribute("produto", produto);
-        List<AvaliacaoModel> avaliacoes = avaliacaoService.buscarAvaliacoesPorProduto(id);
-        model.addAttribute("avaliacoes", avaliacoes);
-        return "produtodetalhes";
-    }
-    
-    @PostMapping("/catalogodeprodutos/produtos/produto/{id}/avaliar")
-    public String salvarAvaliacao(@PathVariable Long id, @RequestParam int estrelas, 
-                                   @RequestParam String comentario, @RequestParam String email, 
-                                   RedirectAttributes redirectAttributes) {
-        ProdutoModel produto = produtoService.buscarProdutoPorId(id)
-                .orElseThrow(() -> new RuntimeException("Produto não encontrado."));
-        AvaliacaoModel avaliacao = new AvaliacaoModel(null, estrelas, comentario, email, produto);
-        avaliacaoService.salvarAvaliacao(avaliacao);
-        redirectAttributes.addFlashAttribute("successMessage", "Avaliação salva com sucesso!");
-        return "redirect:/web/catalogodeprodutos/produtos/produto/" + id;
-    }
+	@GetMapping("/home")
+	public String home(Model model) {
+		List<ProdutoModel> produtos = produtoService.listarProdutos();
+		Collections.shuffle(produtos);
+		model.addAttribute("produtos", produtos.stream().limit(6).toList());
+		return "home";
+	}
 
-    @GetMapping("/administracao/produtos/novoproduto")
-    public String exibirFormularioNovoProduto(Model model) {
-        model.addAttribute("categorias", categoriaService.listarCategorias());
-        model.addAttribute("fornecedores", fornecedorService.listarFornecedores());
-        model.addAttribute("produto", new ProdutoDTO());
-        model.addAttribute("novo", true);
-        return "produtoform";
-    }
+	@GetMapping("/catalogodeprodutos/produtos/produto/{id}")
+	public String exibirDetalhesDoProduto(@PathVariable Long id, Model model) {
+		ProdutoModel produto = produtoService.buscarProdutoPorId(id)
+				.orElseThrow(() -> new RuntimeException("Produto não encontrado."));
+		model.addAttribute("produto", produto);
+		List<AvaliacaoModel> avaliacoes = avaliacaoService.buscarAvaliacoesPorProduto(id);
+		model.addAttribute("avaliacoes", avaliacoes);
+		return "produtodetalhes";
+	}
 
-    @GetMapping("/administracao/produtos/editar/{id}")
-    public String exibirFormularioEditarProduto(@PathVariable Long id, Model model) {
-        produtoService.buscarProdutoPorId(id).ifPresent(produto -> {
-            ProdutoDTO produtoDTO = new ProdutoDTO();
-            produtoDTO.setId(produto.getId());
-            produtoDTO.setDescricao(produto.getDescricao());
-            produtoDTO.setCategoriaId(produto.getCategoria().getId());
-            produtoDTO.setMarca(produto.getMarca());
-            produtoDTO.setValor(produto.getValor());
-            produtoDTO.setDetalhes(produto.getDetalhes());
-            produtoDTO.setFornecedorId(produto.getFornecedor() != null ? produto.getFornecedor().getId() : null);
-            model.addAttribute("produto", produtoDTO);
-        });
-        model.addAttribute("categorias", categoriaService.listarCategorias());
-        model.addAttribute("fornecedores", fornecedorService.listarFornecedores());
-        model.addAttribute("novo", false);
-        return "produtoform";
-    }
+	@GetMapping("/administracao/produtos/produto/{id}")
+	public String exibirAdministracaoDetalhesDoProduto(@PathVariable Long id, Model model) {
+		ProdutoModel produto = produtoService.buscarProdutoPorId(id)
+				.orElseThrow(() -> new RuntimeException("Produto não encontrado."));
+		model.addAttribute("produto", produto);
+		List<AvaliacaoModel> avaliacoes = avaliacaoService.buscarAvaliacoesPorProduto(id);
+		model.addAttribute("avaliacoes", avaliacoes);
+		return "administracaoprodutodetalhes";
+	}
 
-    @PostMapping("/administracao/produtos/novoproduto")
-    public String salvarProduto(@ModelAttribute ProdutoDTO produtoDTO, @RequestParam String action, RedirectAttributes redirectAttributes) throws IOException {
-        
-    	if ("cancel".equals(action)) {
-            redirectAttributes.addFlashAttribute("infoMessage", "Edição cancelada.");
-            return "redirect:/web/administracao/produtos";
-        }
-    	
-    	ProdutoModel produto = produtoDTO.getId() != null
-                ? produtoService.buscarProdutoPorId(produtoDTO.getId()).orElse(new ProdutoModel())
-                : new ProdutoModel();
-        atualizarProdutoComDTO(produto, produtoDTO);
-        produtoService.salvarProduto(produto);
+	@PostMapping("/catalogodeprodutos/produtos/produto/{id}/avaliar")
+	public String salvarAvaliacao(@PathVariable Long id, @RequestParam int estrelas, @RequestParam String comentario,
+			@RequestParam String email, RedirectAttributes redirectAttributes) {
+		ProdutoModel produto = produtoService.buscarProdutoPorId(id)
+				.orElseThrow(() -> new RuntimeException("Produto não encontrado."));
+		AvaliacaoModel avaliacao = new AvaliacaoModel(null, estrelas, comentario, email, produto);
+		avaliacaoService.salvarAvaliacao(avaliacao);
+		redirectAttributes.addFlashAttribute("successMessage", "Avaliação salva com sucesso!");
+		return "redirect:/web/catalogodeprodutos/produtos/produto/" + id;
+	}
 
-        redirectAttributes.addFlashAttribute("successMessage", "Produto salvo com sucesso!");
-        return "redirect:/web/administracao/produtos";
-    }
+	@GetMapping("/administracao/produtos/novoproduto")
+	public String exibirFormularioNovoProduto(Model model) {
+		model.addAttribute("categorias", categoriaService.listarCategorias());
+		model.addAttribute("fornecedores", fornecedorService.listarFornecedores());
+		model.addAttribute("produto", new ProdutoDTO());
+		model.addAttribute("novo", true);
+		return "produtoform";
+	}
 
-    private void atualizarProdutoComDTO(ProdutoModel produto, ProdutoDTO produtoDTO) throws IOException {
-        produto.setDescricao(produtoDTO.getDescricao());
-        produto.setMarca(produtoDTO.getMarca());
-        produto.setValor(produtoDTO.getValor());
-        produto.setDetalhes(produtoDTO.getDetalhes());
-        if (produtoDTO.getCategoriaId() != null) {
-            CategoriaModel categoria = categoriaService.buscarCategoriaPorId(produtoDTO.getCategoriaId())
-                    .orElseThrow(() -> new RuntimeException("Categoria não encontrada."));
-            produto.setCategoria(categoria);
-        }
-        if (produtoDTO.getFornecedorId() != null) {
-            FornecedorModel fornecedor = fornecedorService.buscarFornecedorPorId(produtoDTO.getFornecedorId())
-                    .orElseThrow(() -> new RuntimeException("Fornecedor não encontrado."));
-            produto.setFornecedor(fornecedor);
-        }
-        if (produtoDTO.getImagem() != null && !produtoDTO.getImagem().isEmpty()) {
-            produto.setImagem(produtoDTO.getImagem().getBytes());
-        }
-    }
+	@GetMapping("/administracao/produtos/editar/{id}")
+	public String exibirFormularioEditarProduto(@PathVariable Long id, Model model) {
+		produtoService.buscarProdutoPorId(id).ifPresent(produto -> {
+			ProdutoDTO produtoDTO = new ProdutoDTO();
+			produtoDTO.setId(produto.getId());
+			produtoDTO.setDescricao(produto.getDescricao());
+			produtoDTO.setCategoriaId(produto.getCategoria().getId());
+			produtoDTO.setMarca(produto.getMarca());
+			produtoDTO.setValor(produto.getValor());
+			produtoDTO.setDetalhes(produto.getDetalhes());
+			produtoDTO.setFornecedorId(produto.getFornecedor() != null ? produto.getFornecedor().getId() : null);
+			model.addAttribute("produto", produtoDTO);
+		});
+		model.addAttribute("categorias", categoriaService.listarCategorias());
+		model.addAttribute("fornecedores", fornecedorService.listarFornecedores());
+		model.addAttribute("novo", false);
+		return "produtoform";
+	}
 
-    @GetMapping("/administracao/produtos")
-    public String listarProdutos(@RequestParam(defaultValue = "0") int page,
-                                 @RequestParam(defaultValue = "10") int size,
-                                 @RequestParam(required = false) Long categoriaId,
-                                 @RequestParam(required = false) Long fornecedorId,
-                                 @RequestParam(required = false) BigDecimal precoMin,
-                                 @RequestParam(required = false) BigDecimal precoMax,
-                                 @RequestParam(required = false) String descricao,
-                                 @RequestParam(required = false) String action,
-                                 Model model) {
-        if ("reset".equals(action)) {
-            return "redirect:/web/administracao/produtos";
-        }
-        Page<ProdutoModel> paginaProdutos = produtoService.filtrarProdutosPaginados(
-            page, size, categoriaId, fornecedorId, precoMin, precoMax, descricao
-        );
-        model.addAttribute("produtos", paginaProdutos.getContent());
-        model.addAttribute("currentPage", page);
-        model.addAttribute("totalPages", paginaProdutos.getTotalPages());
-        model.addAttribute("categorias", categoriaService.listarCategorias());
-        model.addAttribute("fornecedores", fornecedorService.listarFornecedores());
-        return "administracaoprodutos";
-    }
-    
-    @GetMapping("/administracao/produtos/maisbemavaliados")
-    public ResponseEntity<List<Map<String, Object>>> listarProdutosMaisBemAvaliados() {
-        List<Map<String, Object>> produtosBemAvaliados = produtoService.buscarProdutosMaisBemAvaliados();
-        return ResponseEntity.ok(produtosBemAvaliados);
-    }
+	@PostMapping("/administracao/produtos/novoproduto")
+	public String salvarProduto(@ModelAttribute ProdutoDTO produtoDTO, @RequestParam String action,
+			RedirectAttributes redirectAttributes) throws IOException {
 
-    @GetMapping("/produtos/produto/imagem/{id}")
-    public ResponseEntity<byte[]> exibirImagemProduto(@PathVariable Long id) {
-        Optional<ProdutoModel> produto = produtoService.buscarProdutoPorId(id);
-        if (produto.isPresent() && produto.get().getImagem() != null) {
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(org.springframework.http.MediaType.IMAGE_JPEG);
-            return new ResponseEntity<>(produto.get().getImagem(), headers, HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
+		if ("cancel".equals(action)) {
+			redirectAttributes.addFlashAttribute("infoMessage", "Edição cancelada.");
+			return "redirect:/web/administracao/produtos";
+		}
 
-    @GetMapping("/administracao/produtos/excluir/{id}")
-    public String excluirProduto(@PathVariable Long id, RedirectAttributes redirectAttributes) {
-        try {
-            produtoService.deletarProduto(id);
-            redirectAttributes.addFlashAttribute("successMessage", "Produto excluído com sucesso!");
-        } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Erro ao excluir o produto.");
-        }
-        return "redirect:/web/administracao/produtos";
-    }
+		ProdutoModel produto = produtoDTO.getId() != null
+				? produtoService.buscarProdutoPorId(produtoDTO.getId()).orElse(new ProdutoModel())
+				: new ProdutoModel();
+		atualizarProdutoComDTO(produto, produtoDTO);
+		produtoService.salvarProduto(produto);
 
-    @GetMapping("/sobre")
-    public String sobre() {
-        return "sobre";
-    }
+		redirectAttributes.addFlashAttribute("successMessage", "Produto salvo com sucesso!");
+		return "redirect:/web/administracao/produtos";
+	}
+
+	private void atualizarProdutoComDTO(ProdutoModel produto, ProdutoDTO produtoDTO) throws IOException {
+		produto.setDescricao(produtoDTO.getDescricao());
+		produto.setMarca(produtoDTO.getMarca());
+		produto.setValor(produtoDTO.getValor());
+		produto.setDetalhes(produtoDTO.getDetalhes());
+		if (produtoDTO.getCategoriaId() != null) {
+			CategoriaModel categoria = categoriaService.buscarCategoriaPorId(produtoDTO.getCategoriaId())
+					.orElseThrow(() -> new RuntimeException("Categoria não encontrada."));
+			produto.setCategoria(categoria);
+		}
+		if (produtoDTO.getFornecedorId() != null) {
+			FornecedorModel fornecedor = fornecedorService.buscarFornecedorPorId(produtoDTO.getFornecedorId())
+					.orElseThrow(() -> new RuntimeException("Fornecedor não encontrado."));
+			produto.setFornecedor(fornecedor);
+		}
+		if (produtoDTO.getImagem() != null && !produtoDTO.getImagem().isEmpty()) {
+			produto.setImagem(produtoDTO.getImagem().getBytes());
+		}
+	}
+
+	@GetMapping("/administracao/produtos")
+	public String listarProdutos(@RequestParam(defaultValue = "0") int page,
+			@RequestParam(defaultValue = "10") int size, @RequestParam(required = false) Long categoriaId,
+			@RequestParam(required = false) Long fornecedorId, @RequestParam(required = false) BigDecimal precoMin,
+			@RequestParam(required = false) BigDecimal precoMax, @RequestParam(required = false) String descricao,
+			@RequestParam(required = false) String action, Model model) {
+		if ("reset".equals(action)) {
+			return "redirect:/web/administracao/produtos";
+		}
+		Page<ProdutoModel> paginaProdutos = produtoService.filtrarProdutosPaginados(page, size, categoriaId,
+				fornecedorId, precoMin, precoMax, descricao);
+		model.addAttribute("produtos", paginaProdutos.getContent());
+		model.addAttribute("currentPage", page);
+		model.addAttribute("totalPages", paginaProdutos.getTotalPages());
+		model.addAttribute("categorias", categoriaService.listarCategorias());
+		model.addAttribute("fornecedores", fornecedorService.listarFornecedores());
+		return "administracaoprodutos";
+	}
+
+	@GetMapping("/administracao/produtos/maisbemavaliados")
+	public ResponseEntity<List<Map<String, Object>>> listarProdutosMaisBemAvaliados() {
+		List<Map<String, Object>> produtosBemAvaliados = produtoService.buscarProdutosMaisBemAvaliados();
+		return ResponseEntity.ok(produtosBemAvaliados);
+	}
+
+	@GetMapping("/produtos/produto/imagem/{id}")
+	public ResponseEntity<byte[]> exibirImagemProduto(@PathVariable Long id) {
+		Optional<ProdutoModel> produto = produtoService.buscarProdutoPorId(id);
+		if (produto.isPresent() && produto.get().getImagem() != null) {
+			HttpHeaders headers = new HttpHeaders();
+			headers.setContentType(org.springframework.http.MediaType.IMAGE_JPEG);
+			return new ResponseEntity<>(produto.get().getImagem(), headers, HttpStatus.OK);
+		}
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	}
+
+	@GetMapping("/administracao/produtos/excluir/{id}")
+	public String excluirProduto(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+		try {
+			produtoService.deletarProduto(id);
+			redirectAttributes.addFlashAttribute("successMessage", "Produto excluído com sucesso!");
+		} catch (Exception e) {
+			redirectAttributes.addFlashAttribute("errorMessage", "Erro ao excluir o produto.");
+		}
+		return "redirect:/web/administracao/produtos";
+	}
+
+	@GetMapping("/sobre")
+	public String sobre() {
+		return "sobre";
+	}
 }

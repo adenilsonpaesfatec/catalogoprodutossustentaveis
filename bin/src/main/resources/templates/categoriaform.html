@@ -2,33 +2,35 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-	<meta charset="UTF-8">
-	<title>Catálogo de Brinquedos</title>
-	<link rel="stylesheet" th:href="@{/style/style.css}">
-	<link rel="icon" type="image/x-icon" th:href="@{/images/favicon.png}">
+    <meta charset="UTF-8">
+    <title>Catálogo de Produtos - Painel Administrativo</title>
+    <link rel="stylesheet" th:href="@{/style/style.css}">
+    <link rel="icon" type="image/x-icon" th:href="@{/images/favicon.png}">
 </head>
 
 <body>
-	<div class="container">
-		<header class="header">
-			<div class="logo">
-				<img th:src="@{/images/imagemlogo.webp}" alt="Logo">
-			</div>
-			<div class="header-title">
-				<h1>Catálogo de Brinquedos</h1>
-			</div>
-		</header>
-		<div class="menu-lateral">
-			<h2>MENU PRINCIPAL</h2>
-			<ul>
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <img th:src="@{/images/imagemlogo.webp}" alt="Logo">
+            </div>
+            <div class="header-title">
+                <h1>Painel Administrativo - Fornecedores</h1>
+            </div>
+        </header>
+        <div class="menu-lateral">
+            <h2>PAINEL ADMIN</h2>
+            <ul>
 				<li><a th:href="@{/web/home}">Home</a></li>
-				<li><a th:href="@{/web/catalogodebrinquedos}">Catálogo de Brinquedos</a></li>
-				<li><a th:href="@{/web/administracao/brinquedos}">Administração</a></li>
-				<li><a th:href="@{/web/sobre}">Sobre a equipe</a></li>
-			</ul>
-		</div>
+				<li><a th:href="@{/web/administracao/paineladministrativo}">Dashboard</a></li>
+				<li><a th:href="@{/web/administracao/fornecedores}">Gerenciar Fornecedores</a></li>
+				<li><a th:href="@{/web/administracao/categorias}">Gerenciar Categorias</a></li>
+				<li><a th:href="@{/web/administracao/produtos}">Gerenciar Produtos</a></li>
+                <li><a th:href="@{/web/administracao/logout}">Sair</a></li>
+            </ul>
+        </div>
 		<main>
-			<h2>Catálogo de Brinquedos : : <span th:text="${novo} ? 'Nova' : 'Editar'"></span> Categoria</h2>
+			<h2>Catálogo de Produtos : : <span th:text="${novo} ? 'Nova' : 'Editar'"></span> Categoria</h2>
 			<hr>
 			<br>
 			<form
@@ -51,20 +53,37 @@
 				</div>
 				<div class="form-group">
 					<label for="imagem">IMAGEM:</label>
-					<input type="file" id="imagem" name="imagem" th:field="*{imagem}" accept="image/*">
+					<input type="file" id="imagem" th:field="*{imagem}" accept="image/*" onchange="previewImagem(event)">
 				</div>
 				<div class="form-group-message" th:if="${!novo}">
+					<img id="preview" th:src="@{/web/categorias/categoria/imagem/{id}(id=${categoria.id})}" th:alt="${'Categoria ' + categoria.id}">
 					<h5>Selecione uma nova imagem ou deixe em branco para manter a mesma.</h5>
 				</div>
-				<div class="form-group botao-salvar">
-					<button type="submit">SALVAR DADOS</button>
+				<div class="form-group botao">
+					<button type="submit" name="action" value="save" class="btn-salvar">SALVAR DADOS</button>
+					<button type="submit" name="action" value="cancel" class="btn-cancelar" onclick="cancelar()">CANCELAR</button>
 				</div>
 			</form>
 		</main>
 		<footer class="footer">
-			<p>&copy; 2024 Catálogo de Brinquedos. Todos os direitos reservados.</p>
+			<p>&copy; 2024 Catálogo de Produtos. Todos os direitos reservados.</p>
 		</footer>
 	</div>
 </body>
-
+<script>
+    function previewImagem(event) {
+        const reader = new FileReader();
+        const preview = document.getElementById('preview');
+        reader.onload = function () {
+            preview.src = reader.result;
+        };
+        if (event.target.files.length > 0) {
+            reader.readAsDataURL(event.target.files[0]);
+        }
+    }
+	
+	function cancelar() {
+	    window.location.href = '/web/administracao/categorias';
+	}
+</script>
 </html>

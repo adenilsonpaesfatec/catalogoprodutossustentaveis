@@ -10,7 +10,7 @@
 
 <body>
 	<div class="container">
-		
+
 		<header class="header">
 			<div class="logo">
 				<img th:src="@{/images/imagemlogo.webp}" alt="Logo">
@@ -19,7 +19,7 @@
 				<h1>Painel Administrativo</h1>
 			</div>
 		</header>
-		
+
 		<div class="menu-lateral">
 			<h2>PAINEL ADMIN</h2>
 			<ul>
@@ -31,9 +31,13 @@
 				<li><a th:href="@{/web/administracao/logout}">Sair</a></li>
 			</ul>
 		</div>
-		
+
 		<main>
-			<h2>Administração : : Categorias</h2>
+			<h2>
+				<a href="/web/administracao/paineladministrativo">Administração</a>
+				: :
+				<a href="/web/administracao/categorias">Categorias</a>
+			</h2>
 			<hr>
 			<br>
 			<table class="categorias-tabela">
@@ -75,18 +79,18 @@
 				</div>
 			</div>
 		</main>
-		
+
 		<footer class="footer">
 			<p>&copy; 2024 Catálogo de Produtos. Todos os direitos reservados.</p>
 		</footer>
 	</div>
-	
+
 	<!-- Modal para exibir a imagem ampliada -->
 	<div id="imagemModal" class="modal">
 		<span class="close" onclick="fecharModal()">&times;</span>
 		<img class="modal-content" id="imagemAmpliada">
 	</div>
-	
+
 </body>
 
 <script>
